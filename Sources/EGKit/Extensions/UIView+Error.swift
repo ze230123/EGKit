@@ -9,28 +9,7 @@ import UIKit
 import EGServer
 import MBProgressHUD
 
-/// 加载动画视图协议
-public protocol LoadAnimateable where Self: UIView {
-    func start()
-    func stop()
-}
-
-/// 空视图协议
-public protocol ViewEmptyable where Self: UIView {
-    func updateTitle(_ title: String)
-    func updateContent(_ content: String)
-}
-
-/// 错误提示视图协议
-public protocol ViewErrorable where Self: UIView {
-    func update(_ error: ServerError, observer: ErrorHandlerObserverType?)
-}
-
-/// 错误处理回调
-public protocol ErrorHandlerObserverType where Self: BaseViewController {
-    /// 重试
-    func onReTry()
-}
+typealias EGError = ServerError
 
 private struct Keys {
     static var empty = "empty"
@@ -59,10 +38,11 @@ extension UIView {
         case hud
     }
 }
+
 // MARK: - 私有存储，runtime添加
 extension UIView {
     /// 错误提示View
-    private var _errorView: ViewErrorable? {
+    var errorView: ViewErrorable? {
         set {
             objc_setAssociatedObject(self, &Keys.error, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
@@ -72,7 +52,7 @@ extension UIView {
     }
 
     /// 无数据页面提示View
-    private var _emptyView: ViewEmptyable? {
+    var emptyView: ViewEmptyable? {
         set {
             objc_setAssociatedObject(self, &Keys.empty, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
@@ -82,7 +62,7 @@ extension UIView {
     }
 
     /// 加载动画View
-    private var _imageLoadingView: LoadAnimateable? {
+    var loadingView: LoadAnimateable? {
         set {
             objc_setAssociatedObject(self, &Keys.loading, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
@@ -92,7 +72,7 @@ extension UIView {
     }
 
     /// 加载hud动画
-    private var _imageHudLoadingView: MBHUD? {
+    var loadingHud: MBHUD? {
         set {
             objc_setAssociatedObject(self, &Keys.imageHud, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
@@ -101,159 +81,25 @@ extension UIView {
         }
     }
 }
-// MARK: - 只读
-extension UIView {
-    /// 错误提示view
-    var errorView: ViewErrorable? {
-        if _errorView == nil {
-            _errorView = ErrorView()
-            _errorView?.frame = bounds
-            _errorView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        }
-        return _errorView
-    }
 
-    /// 无数据提示view
-    var emptyView: ViewEmptyable? {
-        if _emptyView == nil {
-            _emptyView = EmptyView()
-            _emptyView?.frame = bounds
-            _emptyView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        }
-        return _emptyView
-    }
-
-    /// 全屏加载动画view
-    var imageLoadingView: LoadAnimateable? {
-        if _imageLoadingView == nil {
-            _imageLoadingView = LoadingView()
-            _imageLoadingView?.frame = bounds
-            _imageLoadingView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        }
-        return _imageLoadingView
-    }
-
-    /// 小屏加载动画view
-    var imageHudLoadingView: MBHUD? {
-        if _imageHudLoadingView == nil {
-            _imageHudLoadingView = MBHUD.loading(to: self)
-        }
-        return _imageHudLoadingView
-    }
-}
-// MARK: - 更新视图 function
-public extension UIView {
-    /// 更新错误提示view
-    /// - Parameter errorView: 错误提示view
-    func update(_ errorView: ViewErrorable) {
-        _errorView = errorView
-    }
-
-    /// 更新无数据提示view
-    /// - Parameter emptyView: 无数据提示view
-    func update(_ emptyView: ViewEmptyable) {
-        _emptyView = emptyView
-    }
-
-    /// 更新空视图标题
-    ///
-    /// 在`viewDidLoad()`方法中调用
-    ///
-    /// - Parameter title: 标题
-    func updateEmptyTitle(_ title: String) {
-        emptyView?.updateTitle(title)
-    }
-
-    /// 更新空视图内容
-    ///
-    /// 在`viewDidLoad()`方法中调用
-    ///
-    /// - Parameter content: 内容
-    func updateEmptyContent(_ content: String) {
-        emptyView?.updateContent(content)
-    }
-}
-
-// MARK: - Reset
-private extension UIView {
-    /// 重置视图
-    func reset() {
-        if _errorView != nil {
-            errorView?.removeFromSuperview()
-        }
-        if _emptyView != nil {
-            emptyView?.removeFromSuperview()
-        }
-        if _imageLoadingView != nil {
-            imageLoadingView?.stop()
-            imageLoadingView?.removeFromSuperview()
-        }
-        MBHUD.hide(for: self, animated: true)
-    }
-}
-// MARK: - Error
-public extension UIView {
-    /// 显示错误提示
-    /// - Parameter error: 错误
-    func showError(_ error: ServerError, style: ErrorStyle, observer: ErrorHandlerObserverType? = nil) {
-        reset()
-        switch style {
-        case .view:
-            guard let errorView = errorView else { return }
-            addSubview(errorView)
-            errorView.update(error, observer: observer)
-        case .hud:
-            MBHUD.showMessage(error.localizedDescription, to: self, delay: 3)
-        }
-    }
-}
-// MARK: - Empty
-public extension UIView {
-    /// 显示空数据提示
-    /// - Parameter isEmpty: 是否为空
-    func showEmpty(_ isEmpty: Bool) {
-        reset()
-        guard isEmpty, let empty = emptyView else { return }
-        addSubview(empty)
-    }
-}
-// MARK: - Loading
-public extension UIView {
-    /// 显示加载动画
-    /// - Parameters:
-    ///   - style: 动画类型
-    ///   - isEnabled: 是否启用
-    func showLoading(_ style: LoadingStyle, isEnabled: Bool = true) {
-        reset()
-        guard isEnabled else { return }
-        switch style {
-        case .image:
-            showImageLoadingView()
-        case .imageHud:
-            showImageHudLoadingView()
-        case .normalHud:
-            showNormalHud()
-        }
-    }
-
-    /// 停止加载动画
-    func stopLoading() {
-        reset()
-    }
-
-    private func showImageLoadingView() {
-        guard let loadingView = imageLoadingView else { return }
-        loadingView.start()
-        addSubview(loadingView)
-    }
-
-    private func showImageHudLoadingView() {
-        guard let hud = imageHudLoadingView else { return }
-        addSubview(hud)
-        hud.show(animated: true)
-    }
-
-    private func showNormalHud() {
-        _ = MBHUD.showCustomAdded(to: self, animated: true)
-    }
-}
+//// MARK: - 更新视图 function
+//public extension UIView {
+//
+//    /// 更新空视图标题
+//    ///
+//    /// 在`viewDidLoad()`方法中调用
+//    ///
+//    /// - Parameter title: 标题
+//    func updateEmptyTitle(_ title: String) {
+//        emptyView?.updateTitle(title)
+//    }
+//
+//    /// 更新空视图内容
+//    ///
+//    /// 在`viewDidLoad()`方法中调用
+//    ///
+//    /// - Parameter content: 内容
+//    func updateEmptyContent(_ content: String) {
+//        emptyView?.updateContent(content)
+//    }
+//}

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EGRefresh
 
 public protocol Refreshable: class {
     var pageIndex: Int { get set }
@@ -15,15 +16,18 @@ public protocol Refreshable: class {
 
 public extension Refreshable where Self: BaseTableViewController {
     func addRefreshHeader() {
-        tableView.addRefreshHeader { [weak self] in
+        let header = RefreshNormalHeader { [weak self] in
             self?.loadData()
         }
+        tableView.rf.header = header
     }
 
     func addRefreshFooter() {
-        tableView.addRefreshFooter { [weak self] in
+        let footer = RefreshNormalFooter { [weak self] in
             self?.moreData()
         }
+        footer.isHidden = true
+        tableView.rf.footer = footer
     }
 
     func loadData() {
@@ -39,15 +43,18 @@ public extension Refreshable where Self: BaseTableViewController {
 
 public extension Refreshable where Self: BaseCollectionViewController {
     func addRefreshHeader() {
-        collectionView.addRefreshHeader { [weak self] in
+        let header = RefreshNormalHeader { [weak self] in
             self?.loadData()
         }
+        collectionView.rf.header = header
     }
 
     func addRefreshFooter() {
-        collectionView.addRefreshFooter { [weak self] in
+        let footer = RefreshNormalFooter { [weak self] in
             self?.moreData()
         }
+        footer.isHidden = true
+        collectionView.rf.footer = footer
     }
 
     func loadData() {

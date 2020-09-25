@@ -22,6 +22,7 @@ open class BaseCollectionViewController: BaseViewController, Refreshable {
 
     /// collection列表此方法无效，请使用`request(action:)`方法
     final public override func request() {
+        fatalError("请使用`request(action:)`方法")
     }
 
     /// 将要调用网络请求

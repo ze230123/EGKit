@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import EGRefresh
 
 open class BaseTableViewController: BaseViewController, Refreshable {
     @IBOutlet public var tableView: UITableView!
@@ -21,6 +20,7 @@ open class BaseTableViewController: BaseViewController, Refreshable {
 
     /// table列表此方法无效，请使用`request(action:)`方法
     final public override func request() {
+        fatalError("请使用`request(action:)`方法")
     }
 
     /// 将要调用网络请求
