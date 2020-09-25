@@ -28,7 +28,7 @@ let package = Package(
             dependencies: ["EGServer", "MBProgressHUD", "EGRefresh"]),
         .target(
             name: "EGServer",
-            dependencies: ["ObjectMapper", .product(name: "RxMoya", package: "Moya"), "Record", "Cache"]),
+            dependencies: [.product(name: "RxMoya", package: "Moya"), "ObjectMapper", "Record", "Cache"]),
         .target(
             name: "Record",
             dependencies: ["GRDB"]),

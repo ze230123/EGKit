@@ -14,7 +14,7 @@ public struct ServerError: Error {
     var message: String
     public var mode: Mode
 
-    init(mode: Mode) {
+    public init(mode: Mode) {
         message = mode.title
         self.mode = mode
     }

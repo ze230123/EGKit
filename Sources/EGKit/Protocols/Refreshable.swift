@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol Refreshable: class {
+public protocol Refreshable: class {
     var pageIndex: Int { get set }
     func loadData()
     func moreData()
 }
 
-extension Refreshable where Self: BaseTableViewController {
+public extension Refreshable where Self: BaseTableViewController {
     func addRefreshHeader() {
         tableView.addRefreshHeader { [weak self] in
             self?.loadData()
@@ -37,7 +37,7 @@ extension Refreshable where Self: BaseTableViewController {
     }
 }
 
-extension Refreshable where Self: BaseCollectionViewController {
+public extension Refreshable where Self: BaseCollectionViewController {
     func addRefreshHeader() {
         collectionView.addRefreshHeader { [weak self] in
             self?.loadData()

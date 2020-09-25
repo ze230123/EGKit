@@ -8,9 +8,9 @@
 import UIKit
 import MBProgressHUD
 
-typealias MBHUD = MBProgressHUD
+public typealias MBHUD = MBProgressHUD
 
-extension MBProgressHUD {
+public extension MBProgressHUD {
     private static func updateLoadingHud(_ hud: MBProgressHUD) {
         hud.mode = .customView
         let loadview = LoadingView()
@@ -93,7 +93,7 @@ extension MBProgressHUD {
     }
 }
 
-extension MBProgressHUD {
+public extension MBProgressHUD {
     enum Position {
         case top
         case center

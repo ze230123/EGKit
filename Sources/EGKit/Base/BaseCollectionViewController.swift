@@ -8,20 +8,20 @@
 import UIKit
 import EGRefresh
 
-class BaseCollectionViewController: BaseViewController, Refreshable {
-    @IBOutlet weak var collectionView: UICollectionView!
+open class BaseCollectionViewController: BaseViewController, Refreshable {
+    @IBOutlet public weak var collectionView: UICollectionView!
 
-    var pageIndex: Int = 1
+    public var pageIndex: Int = 1
 
     /// 刷新行为
     private(set) var action: RefreshAction = .load
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     /// collection列表此方法无效，请使用`request(action:)`方法
-    final override func request() {
+    final public override func request() {
     }
 
     /// 将要调用网络请求
@@ -36,7 +36,7 @@ class BaseCollectionViewController: BaseViewController, Refreshable {
     func request(action: RefreshAction) {
     }
 
-    override func onReTry() {
+    public override func onReTry() {
         request(action: action)
     }
 }

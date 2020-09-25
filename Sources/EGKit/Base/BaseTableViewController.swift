@@ -8,19 +8,19 @@
 import UIKit
 import EGRefresh
 
-class BaseTableViewController: BaseViewController, Refreshable {
-    @IBOutlet var tableView: UITableView!
-    var pageIndex: Int = 1
+open class BaseTableViewController: BaseViewController, Refreshable {
+    @IBOutlet public var tableView: UITableView!
+    public var pageIndex: Int = 1
 
     /// 刷新行为
     private(set) var action: RefreshAction = .load
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     /// table列表此方法无效，请使用`request(action:)`方法
-    final override func request() {
+    final public override func request() {
     }
 
     /// 将要调用网络请求
@@ -35,10 +35,10 @@ class BaseTableViewController: BaseViewController, Refreshable {
     /// 请求网络
     ///
     /// - Parameter action: 行为：加载/更多, 具体细节查看`RefreshAction`
-    func request(action: RefreshAction) {
+    open func request(action: RefreshAction) {
     }
 
-    override func onReTry() {
+    public override func onReTry() {
         request(action: action)
     }
 }

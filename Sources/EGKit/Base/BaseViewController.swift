@@ -8,19 +8,19 @@
 import UIKit
 import RxSwift
 
-class BaseViewController: UIViewController, ErrorHandlerObserverType {
-    let disposeBag = DisposeBag()
+open class BaseViewController: UIViewController, ErrorHandlerObserverType {
+    public let disposeBag = DisposeBag()
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
 
     /// 网络请求、子类重写
-    func request() {
+    open func request() {
     }
 
-    func onReTry() {
+    public func onReTry() {
         request()
     }
 }

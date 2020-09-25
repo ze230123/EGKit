@@ -10,24 +10,24 @@ import EGServer
 import MBProgressHUD
 
 /// 加载动画视图协议
-protocol LoadAnimateable where Self: UIView {
+public protocol LoadAnimateable where Self: UIView {
     func start()
     func stop()
 }
 
 /// 空视图协议
-protocol ViewEmptyable where Self: UIView {
+public protocol ViewEmptyable where Self: UIView {
     func updateTitle(_ title: String)
     func updateContent(_ content: String)
 }
 
 /// 错误提示视图协议
-protocol ViewErrorable where Self: UIView {
+public protocol ViewErrorable where Self: UIView {
     func update(_ error: ServerError, observer: ErrorHandlerObserverType?)
 }
 
 /// 错误处理回调
-protocol ErrorHandlerObserverType where Self: BaseViewController {
+public protocol ErrorHandlerObserverType where Self: BaseViewController {
     /// 重试
     func onReTry()
 }
@@ -40,7 +40,7 @@ private struct Keys {
 }
 
 extension UIView {
-    enum LoadingStyle {
+    public enum LoadingStyle {
         /// 图片动画(全屏)
         case image
         /// 图片动画(缩略图)
@@ -54,7 +54,7 @@ extension UIView {
         }
     }
 
-    enum ErrorStyle {
+    public enum ErrorStyle {
         case view
         case hud
     }
@@ -142,7 +142,7 @@ extension UIView {
     }
 }
 // MARK: - 更新视图 function
-extension UIView {
+public extension UIView {
     /// 更新错误提示view
     /// - Parameter errorView: 错误提示view
     func update(_ errorView: ViewErrorable) {
@@ -192,7 +192,7 @@ private extension UIView {
     }
 }
 // MARK: - Error
-extension UIView {
+public extension UIView {
     /// 显示错误提示
     /// - Parameter error: 错误
     func showError(_ error: ServerError, style: ErrorStyle, observer: ErrorHandlerObserverType? = nil) {
@@ -208,7 +208,7 @@ extension UIView {
     }
 }
 // MARK: - Empty
-extension UIView {
+public extension UIView {
     /// 显示空数据提示
     /// - Parameter isEmpty: 是否为空
     func showEmpty(_ isEmpty: Bool) {
@@ -218,7 +218,7 @@ extension UIView {
     }
 }
 // MARK: - Loading
-extension UIView {
+public extension UIView {
     /// 显示加载动画
     /// - Parameters:
     ///   - style: 动画类型

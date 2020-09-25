@@ -8,7 +8,7 @@
 import UIKit
 import EGRefresh
 
-extension UITableView {
+public extension UITableView {
     /// 添加下拉刷新
     /// - Parameter block: 下拉刷新要执行的代码
     func addRefreshHeader(useing block: @escaping () -> Void) {
