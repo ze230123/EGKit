@@ -16,7 +16,13 @@ public class RefreshNormalHeader: RefreshHeader {
     }()
 
     lazy var indicator = UIActivityIndicatorView()
-    lazy var imageView = UIImageView(image: UIImage(named: "arrow"))
+
+//    lazy var imageView = UIImageView(image: UIImage(named: "arrow"))
+    lazy var imageView: UIImageView = {
+        let image = UIImage(named: "arrow", in: Bundle.module, compatibleWith: nil)
+        let view = UIImageView(image: image)
+        return view
+    }()
 
     lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -35,9 +41,19 @@ public class RefreshNormalHeader: RefreshHeader {
         return label
     }()
 
-    
+    //加载xib
+    func loadViewFromNib() -> UIView {
+        let className = type(of: self)
+        let bundle = Bundle(for: className)
+        let name = NSStringFromClass(className).components(separatedBy: ".").last
+        let nib = UINib(nibName: name!, bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        return view
+    }
 
     override func prepare() {
+        backgroundColor = .clear
+
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

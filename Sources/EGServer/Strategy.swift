@@ -7,7 +7,7 @@
 
 import Foundation
 import RxSwift
-import Record
+
 
 /// 缓存策略基类
 class BaseStrategy {
@@ -46,7 +46,7 @@ class BaseStrategy {
     ///   - map: 数据转换工具
     ///   - observable: 真实请求的可观察对象
     /// - Returns: 数据可观察对象
-    func loadRemote<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<CacheResult<Element>> where Map: MapHandler, Element == Map.Element {
+    func loadRemote<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<CacheResult<Element>> where Map: MapHandler, Element == Map.Element {
         let key = config.key
         let expiry = config.expiry
 
@@ -65,13 +65,13 @@ class BaseStrategy {
     ///   - handler: 接口请求频率处理工具
     ///   - observable: 正常的请求
     /// - Returns: 返回经过缓存策略工具处理过的请求
-    func execute<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map: MapHandler, Element == Map.Element {
+    func execute<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map: MapHandler, Element == Map.Element {
         fatalError()
     }
 }
 
 class NoCacheStrategy: BaseStrategy {
-    override func execute<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
+    override func execute<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
         if handler.invalid(api: config.api, parameter: config.parameters) {
             return Observable.error(ServerError(mode: .overload))
         } else {
@@ -86,7 +86,7 @@ class NoCacheStrategy: BaseStrategy {
 /// 先读取缓存，不管有没有缓存都会请求网络
 /// 等网络返回后，发现数据一样就不会返回，不同则会再次返回网络的数据
 class CacheAndRemoteDistinctStrategy: BaseStrategy {
-    override func execute<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
+    override func execute<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
         if handler.invalid(api: config.api, parameter: config.parameters) {
             return loadCache(rxCache, map: map, needEmpty: false).map { $0.result }
         } else {
@@ -102,7 +102,7 @@ class CacheAndRemoteDistinctStrategy: BaseStrategy {
 /// 先读取缓存，缓存不存在，在请求网络
 /// 如果次数超出规定限制，直接读取缓存
 class FirstCacheStrategy: BaseStrategy {
-    override func execute<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
+    override func execute<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
         if handler.invalid(api: config.api, parameter: config.parameters) {
             return loadCache(rxCache, map: map, needEmpty: false).map { $0.result }
         } else {
@@ -118,7 +118,7 @@ class FirstCacheStrategy: BaseStrategy {
 /// 先请求网络，网络请求失败，再加载缓存
 /// 如果次数超出规定限制 直接读取缓存
 class FirstRequestStrategy: BaseStrategy {
-    override func execute<Map, Element>(_ rxCache: RxCache, handler: Record, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
+    override func execute<Map, Element>(_ rxCache: RxCache, handler: Recordable, map: Map, observable: Observable<CacheResult<Element>>) -> Observable<Element> where Map : MapHandler, Element == Map.Element {
         if handler.invalid(api: config.api, parameter: config.parameters) {
             return loadCache(rxCache, map: map, needEmpty: false).map { $0.result }
         } else {

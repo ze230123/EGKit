@@ -12,5 +12,8 @@ import UIKit
 /// 将闭包转为方法
 protocol ObserverHandler where Self: UIViewController {
     associatedtype Element
-    func resultHandler(_ result: Result<Element, ServerError>)
+    func resultHandler(_ result: Swift.Result<Element, ServerError>)
+
+    func onSuccess(_ item: Element)
+    func onFailure(_ error: ServerError)
 }

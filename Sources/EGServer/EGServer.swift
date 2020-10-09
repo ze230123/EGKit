@@ -3,7 +3,18 @@ import Foundation
 import Moya
 import RxMoya
 import RxSwift
-import Record
+
+protocol Recordable {
+    func invalid(api: String, parameter: String) -> Bool
+    func save(_ api: String, parameter: String)
+}
+
+//public struct Record {
+//    public typealias Element = (api: String, parameter: String)
+//    public typealias InvalidBlock = (Element) -> Bool
+//    public typealias SaveBlock = (Element) -> Void
+//    public typealias RecordBlock = (invalid: InvalidBlock, save: SaveBlock)
+//}
 
 public class EGServer {
     public static let shared = EGServer()
@@ -27,17 +38,22 @@ public class EGServer {
 
     private lazy var provider = MoyaProvider<MultiTarget>(requestClosure: EGServer.timeoutRequestClosure, callbackQueue: .main, plugins: EGServer.plugins)
 
-    private let handler: Record
+//    private let handler: Record
 
     private let rxCache: RxCache
     private let scheduler: SchedulerType
 
+    /// 请求是否有效验证
+//    var invalidHandler: InvalidBlock?
+//    var saveRecordHander: SaveBlock?
+    var recordHandler: (() -> Recordable)?
+
     public init() {
-        handler = Record(
-            apiAndParameter: Frequency(time: 1000, count: 8),
-            api: Frequency(time: 1000 * 10, count: 100),
-            all: Frequency(time: 1000 * 60, count: 1000)
-        )
+//        handler = Record(
+//            apiAndParameter: Frequency(time: 1000, count: 8),
+//            api: Frequency(time: 1000 * 10, count: 100),
+//            all: Frequency(time: 1000 * 60, count: 1000)
+//        )
         scheduler = ConcurrentDispatchQueueScheduler(qos: DispatchQoS.default)
         rxCache = RxCache(scheduler: scheduler)
     }
@@ -76,7 +92,9 @@ public class EGServer {
     ///   - map: 数据转换工具
     /// - Returns: 返回数据可观察对象
     func toObservable<Map, Element>(_ observable: Observable<CacheResult<Element>>, strategy: BaseStrategy, map: Map) -> Observable<Element> where Map: MapHandler, Element == Map.Element {
+        guard let handler = recordHandler?() else {
+            fatalError("recordHandler 没有实现")
+        }
         return strategy.execute(rxCache, handler: handler, map: map, observable: observable)
     }
-
 }

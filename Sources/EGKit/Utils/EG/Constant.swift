@@ -6,5 +6,7 @@
 //
 
 import EGRefresh
+import EGServer
 
 public typealias RefreshAction = EGRefresh.RefreshAction
+public typealias NTError = ServerError

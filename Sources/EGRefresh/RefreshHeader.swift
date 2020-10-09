@@ -43,6 +43,8 @@ open class RefreshHeader: Refresh {
         return 60
     }
 
+    var contentInset: UIEdgeInsets = .zero
+
     public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         // 设置刷新控件frame
@@ -50,12 +52,15 @@ open class RefreshHeader: Refresh {
             frame.origin.y = -height
             frame.size.width = scrollView.frame.width
             frame.size.height = height
+
+            contentInset = scrollView.contentInset
         }
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard state != .refreshing && state != .finish else { return }
         let y = scrollView.contentOffset.y + scrollView.inset.top
+        print(y)
         if scrollView.isDragging {
             switch y {
             case 0...CGFloat.greatestFiniteMagnitude: // 上滑
@@ -84,7 +89,8 @@ private extension RefreshHeader {
     func startRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
         print("开始刷新动画")
-        let insetTop = scrollView.contentInset.top + height
+        contentInset = scrollView.contentInset
+        let insetTop = contentInset.top + height
         UIView.animate(withDuration: 0.25, animations: {
             scrollView.contentInset.top = insetTop
             scrollView.contentOffset.y = -scrollView.inset.top
@@ -96,7 +102,7 @@ private extension RefreshHeader {
     func stopRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
         print("结束刷新动画")
-        let top = scrollView.contentInset.top - height
+        let top = contentInset.top
         UIView.animate(withDuration: 0.25) {
             scrollView.contentInset.top = top
         }

@@ -47,3 +47,15 @@ extension EmptyView {
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
 }
+
+extension EmptyView: DataEmptyable {
+    func update(title: String) {
+        label.text = title
+    }
+
+    func update(content: String) {
+    }
+
+    func update(image: UIImage?) {
+    }
+}

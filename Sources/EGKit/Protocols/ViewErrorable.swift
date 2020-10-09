@@ -10,5 +10,5 @@ import EGServer
 
 /// 错误提示视图协议
 public protocol ViewErrorable where Self: UIView {
-    func update(_ error: ServerError, observer: ErrorHandlerObserverType?)
+    func update(_ error: NTError, observer: ErrorHandlerObserverType?)
 }

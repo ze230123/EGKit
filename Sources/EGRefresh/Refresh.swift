@@ -25,10 +25,14 @@ open class Refresh: UIView {
     let completion: Completion?
 
     deinit {
+        print("\(type(of: self))_deinit_state: \(state)")
         removeObservation()
     }
 
+    public var image: UIImage?
+
     public init(completion: Completion?) {
+        image = UIImage(named: "arrow")
         self.completion = completion
         super.init(frame: .zero)
         prepare()

@@ -16,6 +16,7 @@ open class BaseTableViewController: BaseViewController, Refreshable {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        initTableView()
     }
 
     /// table列表此方法无效，请使用`request(action:)`方法
@@ -40,5 +41,15 @@ open class BaseTableViewController: BaseViewController, Refreshable {
 
     public override func onReTry() {
         request(action: action)
+    }
+}
+
+extension BaseTableViewController {
+    func initTableView() {
+        if tableView == nil {
+            tableView = UITableView(frame: view.bounds, style: .plain)
+            tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.addSubview(tableView)
+        }
     }
 }

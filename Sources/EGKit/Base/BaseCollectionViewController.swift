@@ -9,7 +9,8 @@ import UIKit
 import EGRefresh
 
 open class BaseCollectionViewController: BaseViewController, Refreshable {
-    @IBOutlet public weak var collectionView: UICollectionView!
+    @IBOutlet public var collectionView: UICollectionView!
+    @IBOutlet public var layout: UICollectionViewFlowLayout!
 
     public var pageIndex: Int = 1
 
@@ -18,6 +19,7 @@ open class BaseCollectionViewController: BaseViewController, Refreshable {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        initCollectionView()
     }
 
     /// collection列表此方法无效，请使用`request(action:)`方法
@@ -34,10 +36,21 @@ open class BaseCollectionViewController: BaseViewController, Refreshable {
         request(action: action)
     }
 
-    func request(action: RefreshAction) {
+    open func request(action: RefreshAction) {
     }
 
     public override func onReTry() {
         request(action: action)
+    }
+}
+
+extension BaseCollectionViewController {
+    func initCollectionView() {
+        if collectionView == nil {
+            layout = UICollectionViewFlowLayout()
+            collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+            collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.addSubview(collectionView)
+        }
     }
 }

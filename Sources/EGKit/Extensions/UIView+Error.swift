@@ -9,8 +9,6 @@ import UIKit
 import EGServer
 import MBProgressHUD
 
-typealias EGError = ServerError
-
 private struct Keys {
     static var empty = "empty"
     static var error = "error"
@@ -82,24 +80,8 @@ extension UIView {
     }
 }
 
-//// MARK: - 更新视图 function
-//public extension UIView {
-//
-//    /// 更新空视图标题
-//    ///
-//    /// 在`viewDidLoad()`方法中调用
-//    ///
-//    /// - Parameter title: 标题
-//    func updateEmptyTitle(_ title: String) {
-//        emptyView?.updateTitle(title)
-//    }
-//
-//    /// 更新空视图内容
-//    ///
-//    /// 在`viewDidLoad()`方法中调用
-//    ///
-//    /// - Parameter content: 内容
-//    func updateEmptyContent(_ content: String) {
-//        emptyView?.updateContent(content)
-//    }
-//}
+public extension UIView {
+    var eg: EG<UIView> {
+        return EG<UIView>(view: self)
+    }
+}

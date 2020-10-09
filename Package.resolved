@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "GRDB",
-        "repositoryURL": "https://github.com/groue/GRDB.swift.git",
-        "state": {
-          "branch": null,
-          "revision": "1ea4a44bb8d5b868a6cbea31974a42bd1fde6a35",
-          "version": "5.0.0"
-        }
-      },
-      {
         "package": "MBProgressHUD",
         "repositoryURL": "https://github.com/jdg/MBProgressHUD.git",
         "state": {

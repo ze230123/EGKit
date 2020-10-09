@@ -21,8 +21,8 @@ public struct ServerError: Error {
 }
 
 extension ServerError: LocalizedError {
-    var localizedDescription: String {
-        return message
+    public var errorDescription: String? {
+        return mode.title
     }
 }
 

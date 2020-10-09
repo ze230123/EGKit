@@ -21,26 +21,6 @@ public extension UICollectionView {
         rf.endRefresh(action: action, error: error)
     }
 
-    /// 重新加载数据并检查数据是否为空
-    func reloadDataAndCheckEmpty(type: CheckType = .row) {
-        reloadData()
-        let isEmpty = isEmptyData(type: type)
-        print(isEmpty)
-//        showEmpty(isEmpty)
-    }
-
-    /// 判断是否没有数据
-    /// - Parameter type: `CheckType`判断条件
-    /// - Returns: `Bool`
-    private func isEmptyData(type: CheckType) -> Bool {
-        switch type {
-        case .section:
-            return numberOfSections == 0
-        case .row:
-            return numberOfSections == 1 && numberOfItems(inSection: 0) == 0
-        }
-    }
-
     enum CheckType {
         case section
         case row

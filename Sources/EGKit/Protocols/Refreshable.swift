@@ -26,6 +26,9 @@ public extension Refreshable where Self: BaseTableViewController {
         let footer = RefreshNormalFooter { [weak self] in
             self?.moreData()
         }
+        footer.retryBlock = { [weak self] in
+            self?.onReTry()
+        }
         footer.isHidden = true
         tableView.rf.footer = footer
     }

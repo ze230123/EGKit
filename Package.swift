@@ -17,8 +17,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "14.0.0")),
         .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", .upToNextMajor(from: "4.2.0")),
-        .package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "1.2.0")),
-        .package(name: "GRDB", url: "https://github.com/groue/GRDB.swift.git", .upToNextMajor(from: "5.0.0-beta.11"))
+        .package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "1.2.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -28,10 +27,7 @@ let package = Package(
             dependencies: ["EGServer", "MBProgressHUD", "EGRefresh"]),
         .target(
             name: "EGServer",
-            dependencies: [.product(name: "RxMoya", package: "Moya"), "ObjectMapper", "Record", "Cache"]),
-        .target(
-            name: "Record",
-            dependencies: ["GRDB"]),
+            dependencies: [.product(name: "RxMoya", package: "Moya"), "ObjectMapper", "Cache"]),
         .target(
             name: "Cache",
             dependencies: []),
