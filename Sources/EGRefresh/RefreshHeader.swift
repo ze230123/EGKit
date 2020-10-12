@@ -60,7 +60,7 @@ open class RefreshHeader: Refresh {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard state != .refreshing && state != .finish else { return }
         let y = scrollView.contentOffset.y + scrollView.inset.top
-        print(y)
+//        print(y)
         if scrollView.isDragging {
             switch y {
             case 0...CGFloat.greatestFiniteMagnitude: // 上滑
@@ -88,7 +88,7 @@ open class RefreshHeader: Refresh {
 private extension RefreshHeader {
     func startRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
-        print("开始刷新动画")
+//        print("开始刷新动画")
         contentInset = scrollView.contentInset
         let insetTop = contentInset.top + height
         UIView.animate(withDuration: 0.25, animations: {
@@ -101,7 +101,7 @@ private extension RefreshHeader {
 
     func stopRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
-        print("结束刷新动画")
+//        print("结束刷新动画")
         let top = contentInset.top
         UIView.animate(withDuration: 0.25) {
             scrollView.contentInset.top = top

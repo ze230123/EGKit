@@ -8,11 +8,11 @@
 import UIKit
 
 open class BaseTableViewController: BaseViewController, Refreshable {
-    @IBOutlet public var tableView: UITableView!
+    @IBOutlet open var tableView: UITableView!
     public var pageIndex: Int = 1
 
     /// 刷新行为
-    private(set) var action: RefreshAction = .load
+    public private(set) var action: RefreshAction = .load
 
     open override func viewDidLoad() {
         super.viewDidLoad()

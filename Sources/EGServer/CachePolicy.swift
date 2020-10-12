@@ -37,58 +37,16 @@ public extension Dictionary where Key == String, Value == Any {
     }
 }
 
-/// 缓存配置
-///
-/// 设置接口path、接口参数、缓存所属模块、过期时间
-public struct CacheConfig {
-    enum Module {
-        case college
-        case major
-        case pcl
-        case other
-
-        var value: String {
-            switch self {
-            case .college:
-                return "1"
-            case .major:
-                return "2"
-            case .pcl:
-                return "3"
-            case .other:
-                return "4"
-            }
-        }
-    }
-
-    let api: String
-    let parameters: String
-    let module: Module
-    let expiry: Expiry
-
-    init(path: String, parameters: Parameters, module: Module = .other, expiry: Expiry = .never) {
-        self.api = path
-        self.parameters = parameters.toSortString()
-        self.module = module
-        self.expiry = expiry
-    }
-
-    /// 缓存key
-    var key: String {
-        return api + parameters + module.value
-    }
-}
-
 /// 缓存策略
 public enum CachePolicy {
     /// 不用缓存
-    case none(CacheConfig)
+    case none(Config)
     /// 先用缓存，不管有没有都请求网络, 如果网络返回的数据与缓存不一样就再返回网络数据
-    case cacheAndRequest(CacheConfig)
+    case cacheAndRequest(Config)
     /// 先用缓存，没有在请求网络
-    case firstCache(CacheConfig)
+    case firstCache(Config)
     /// 先请求网络，失败后再返回缓存
-    case firstRequest(CacheConfig)
+    case firstRequest(Config)
 
     var strategy: BaseStrategy {
         switch self {
@@ -100,6 +58,48 @@ public enum CachePolicy {
             return FirstCacheStrategy(config: config)
         case let .firstRequest(config):
             return FirstRequestStrategy(config: config)
+        }
+    }
+
+    /// 缓存配置
+    ///
+    /// 设置接口path、接口参数、缓存所属模块、过期时间
+    public struct Config {
+//        public enum Module {
+//            case college
+//            case major
+//            case pcl
+//            case other
+//
+//            var value: String {
+//                switch self {
+//                case .college:
+//                    return "1"
+//                case .major:
+//                    return "2"
+//                case .pcl:
+//                    return "3"
+//                case .other:
+//                    return "4"
+//                }
+//            }
+//        }
+
+        let api: String
+        let parameters: String
+        let module: String
+        let expiry: Expiry
+
+        public init(path: String, parameters: Parameters, module: String, expiry: Expiry = .never) {
+            self.api = path
+            self.parameters = parameters.toSortString()
+            self.module = module
+            self.expiry = expiry
+        }
+
+        /// 缓存key
+        var key: String {
+            return api + parameters + module
         }
     }
 }

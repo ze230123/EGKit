@@ -11,9 +11,9 @@ import RxSwift
 
 /// 缓存策略基类
 class BaseStrategy {
-    fileprivate let config: CacheConfig
+    fileprivate let config: CachePolicy.Config
 
-    init(config: CacheConfig) {
+    init(config: CachePolicy.Config) {
         self.config = config
     }
 

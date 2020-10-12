@@ -11,7 +11,7 @@ import ObjectMapper
 
 /// 任意对象观察者
 public class Observer<Element>: ObserverType {
-    typealias EventHandler = (Result<Element, ServerError>) -> Void
+    public typealias EventHandler = (Result<Element, ServerError>) -> Void
 
     public let disposeBag: DisposeBag
     let observer: EventHandler
@@ -20,25 +20,32 @@ public class Observer<Element>: ObserverType {
         print("\(self)_deinit")
     }
 
-    init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
+    public init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
         self.disposeBag = disposeBag
         self.observer = { [weak observer] result in
-            observer?.resultHandler(result)
+            switch result {
+            case .success(let element):
+                observer?.onSuccess(element)
+            case .failure(let error):
+                observer?.onFailure(error)
+            }
         }
     }
 
-    init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
+    public init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
         self.disposeBag = disposeBag
         self.observer = observer
     }
 
     public func on(_ event: Event<Element>) {
-        switch event {
-        case .next(let item):
-            observer(.success(item))
-        case .error(let error):
-            observer(.failure(ApiException.handleException(error)))
-        case .completed: break
+        DispatchQueue.main.async { [unowned self] in
+            switch event {
+            case .next(let item):
+                self.observer(.success(item))
+            case .error(let error):
+                self.observer(.failure(ApiException.handleException(error)))
+            case .completed: break
+            }
         }
     }
 }
@@ -67,7 +74,12 @@ public class ListObserver<ListElement>: ObserverType {
     init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
         self.disposeBag = disposeBag
         self.observer = { [weak observer] result in
-            observer?.resultHandler(result)
+            switch result {
+            case .success(let element):
+                observer?.onSuccess(element)
+            case .failure(let error):
+                observer?.onFailure(error)
+            }
         }
     }
 
@@ -77,12 +89,14 @@ public class ListObserver<ListElement>: ObserverType {
     }
 
     public func on(_ event: Event<[ListElement]>) {
-        switch event {
-        case .next(let item):
-            observer(.success(item))
-        case .error(let error):
-            observer(.failure(ApiException.handleException(error)))
-        case .completed: break
+        DispatchQueue.main.async { [unowned self] in
+            switch event {
+            case .next(let item):
+                self.observer(.success(item))
+            case .error(let error):
+                self.observer(.failure(ApiException.handleException(error)))
+            case .completed: break
+            }
         }
     }
 }

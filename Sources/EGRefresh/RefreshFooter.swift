@@ -86,7 +86,7 @@ open class RefreshFooter: Refresh {
 private extension RefreshFooter {
     func startRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
-        print("开始上拉加载动画")
+//        print("开始上拉加载动画")
         let x = scrollView.contentOffset.x
         let y = max(0.0, scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.inset.bottom)
 

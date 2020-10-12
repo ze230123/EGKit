@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct Message {
+    static let name = "缓存模块 "
+    static let error = "Error: "
+}
+
 /// 磁盘配置
 public struct DiskConfig {
     /// 文件夹名字
@@ -56,7 +61,7 @@ extension DiskStorage {
             try fileManager.setAttributes([.modificationDate: newExpiry.date], ofItemAtPath: filePath)
 //            print("设置缓存时间完成", newExpiry, newExpiry.date)
         } catch let error {
-            print(error.localizedDescription)
+            debugPrint(Message.name, Message.error, error.localizedDescription)
             isFinish = false
         }
         return isFinish
@@ -84,7 +89,7 @@ extension DiskStorage {
         do {
             try fileManager.removeItem(atPath: makeFilePath(for: key))
         } catch let error {
-            print(error.localizedDescription)
+            debugPrint(Message.name, Message.error, error.localizedDescription)
         }
     }
 
@@ -103,7 +108,7 @@ extension DiskStorage {
         do {
             try fileManager.removeItem(atPath: path)
         } catch let error {
-            print(error.localizedDescription)
+            debugPrint(Message.name, Message.error, error.localizedDescription)
         }
         createDirectory()
     }
@@ -241,7 +246,7 @@ private extension DiskStorage {
         do {
             try fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
         } catch let error {
-            print(error.localizedDescription)
+            debugPrint(Message.name, Message.error, error.localizedDescription)
         }
     }
 }

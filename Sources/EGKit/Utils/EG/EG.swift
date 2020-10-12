@@ -20,12 +20,12 @@ protocol Accessorialable {
     var emptyView: ViewEmptyable? { get }
     var errorView: ViewErrorable? { get }
     var loadingView: LoadAnimateable? { get }
-    var loadingHud: MBHUD? { get }
+    var loadingHud: HUD? { get }
 
     func update(_ errorView: ViewErrorable)
     func update(_ emptyView: ViewEmptyable)
     func update(_ loadingView: LoadAnimateable)
-    func update(_ loadingHud: MBHUD)
+    func update(_ loadingHud: HUD)
 }
 
 extension EG: Accessorialable where Base: UIView {
@@ -50,9 +50,9 @@ extension EG: Accessorialable where Base: UIView {
         return view.loadingView
     }
 
-    var loadingHud: MBHUD? {
+    var loadingHud: HUD? {
         if view.loadingHud == nil {
-            update(MBHUD.loading(to: view))
+            update(HUD.loading(to: view))
         }
         return view.loadingHud
     }
@@ -83,7 +83,7 @@ extension EG: Accessorialable where Base: UIView {
 
     /// 更新加载动画Hud
     /// - Parameter loadingHud: 加载动画Hud
-    func update(_ loadingHud: MBHUD) {
+    func update(_ loadingHud: HUD) {
         view.loadingHud = loadingHud
     }
 
@@ -104,6 +104,14 @@ extension EG: Accessorialable where Base: UIView {
     public func hideLoading() {
         print("隐藏全屏刷新动画")
         loadingView?.removeFromSuperview()
+    }
+
+    public func showHud() {
+        loadingHud?.show()
+    }
+
+    public func hideHud() {
+        loadingHud?.hide()
     }
 
     public func showEmpty() {

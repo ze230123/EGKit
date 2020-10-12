@@ -70,12 +70,12 @@ extension UIView {
     }
 
     /// 加载hud动画
-    var loadingHud: MBHUD? {
+    var loadingHud: HUD? {
         set {
             objc_setAssociatedObject(self, &Keys.imageHud, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
         get {
-            return objc_getAssociatedObject(self, &Keys.imageHud) as? MBHUD
+            return objc_getAssociatedObject(self, &Keys.imageHud) as? HUD
         }
     }
 }
