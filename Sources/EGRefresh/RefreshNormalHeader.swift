@@ -86,6 +86,8 @@ public class RefreshNormalHeader: RefreshHeader {
 //                }
             }
         case .refreshing:
+            stackView.isHidden = false
+            label.isHidden = false
             label.text = "正在刷新..."
             indicator.startAnimating()
             indicator.isHidden = false

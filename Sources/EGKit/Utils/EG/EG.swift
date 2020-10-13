@@ -87,10 +87,13 @@ extension EG: Accessorialable where Base: UIView {
         view.loadingHud = loadingHud
     }
 
-    public func showError(_ error: NTError) {
+    public func showError(_ error: NTError, atView: UIView? = nil, observer: ErrorHandlerObserverType? = nil) {
         guard let errorView = errorView else { return }
+        if let view = atView {
+            errorView.frame = view.frame
+        }
         view.addSubview(errorView)
-        errorView.update(error, observer: nil)
+        errorView.update(error, observer: observer)
     }
 
     public func showLoading() {

@@ -82,6 +82,7 @@ extension ErrorView {
 
 extension ErrorView {
     @objc func tapAction() {
+        removeFromSuperview()
         tapHandler?()
     }
 

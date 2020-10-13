@@ -12,6 +12,8 @@ import ObjectMapper
 ///
 /// `result`为字典时使用此方法
 public struct ObjectMap<Element>: MapHandler where Element: Mappable {
+    public init() {}
+
     public func mapHttpObject() -> (String) throws -> CacheResult<Element> {
         return { value in
             let (jsonString, result) = try ObjectMapper<Element>().mapRoot(value)
@@ -35,6 +37,8 @@ public struct ObjectMap<Element>: MapHandler where Element: Mappable {
 public struct ListMap<ListElement>: MapHandler where ListElement: Mappable {
     public typealias Element = [ListElement]
 
+    public init() {}
+
     public func mapHttpObject() -> (String) throws -> CacheResult<Element> {
         return { value in
             let (jsonString, result) = try ListMapper<ListElement>().mapRoot(value)
@@ -57,6 +61,8 @@ public struct ListMap<ListElement>: MapHandler where ListElement: Mappable {
 /// `result`为String或没有`result`字段时使用此方法
 public struct StringMap: MapHandler {
     public typealias Element = String
+
+    public init() {}
 
     public func mapHttpObject() -> (String) throws -> CacheResult<String> {
         return { value in

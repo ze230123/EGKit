@@ -119,14 +119,15 @@ private extension Refresh {
 public extension Refresh {
     /// 停止刷新
     func endRefresh() {
-        DispatchQueue.main.async { [unowned self] in
+//        DispatchQueue.main.async { [unowned self] in
             self.state = .none
-        }
+//        }
     }
+
     /// 开始刷新
     func beginRefresh() {
         if window != nil {
-            self.state = .refreshing
+            state = .refreshing
         } else {
             if state != .refreshing {
                 state = .willRefresh

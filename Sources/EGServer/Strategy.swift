@@ -124,7 +124,7 @@ class FirstRequestStrategy: BaseStrategy {
         } else {
             let cache = loadCache(rxCache, map: map, needEmpty: true).map { $0.result }
             let remote = loadRemote(rxCache, handler: handler, map: map, observable: observable).map { $0.result }
-            return remote.catchError( { _ in cache } )
+            return remote.catchError( { error in debugPrint("网络优先", error); return cache.ifEmpty(switchTo: .error(error)) } )
         }
     }
 }

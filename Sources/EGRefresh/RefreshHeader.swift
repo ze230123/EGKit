@@ -25,6 +25,7 @@ open class RefreshHeader: Refresh {
 //            case .ready:
 //                print("松开就可以进行刷新的状态")
             case .refreshing:
+                isHidden = false
                 startRefreshing()
 //                print("正在刷新中")
 //            case .finish:
