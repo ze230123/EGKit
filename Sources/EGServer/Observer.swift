@@ -62,7 +62,7 @@ public class ObjectObserver<Element>: Observer<Element> where Element: Mappable 
 public class ListObserver<ListElement>: ObserverType {
     public typealias Element = [ListElement]
 
-    typealias EventHandler = (Result<Element, ServerError>) -> Void
+    public typealias EventHandler = (Result<Element, ServerError>) -> Void
 
     public let disposeBag: DisposeBag
     let observer: EventHandler
@@ -71,7 +71,7 @@ public class ListObserver<ListElement>: ObserverType {
         print("\(self)_deinit")
     }
 
-    init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
+    public init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
         self.disposeBag = disposeBag
         self.observer = { [weak observer] result in
             switch result {
@@ -83,7 +83,7 @@ public class ListObserver<ListElement>: ObserverType {
         }
     }
 
-    init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
+    public init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
         self.disposeBag = disposeBag
         self.observer = observer
     }
