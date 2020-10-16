@@ -17,19 +17,19 @@ public struct EG<Base> {
 }
 
 protocol Accessorialable {
-    var emptyView: ViewEmptyable? { get }
+    var emptyView: DataEmptyable? { get }
     var errorView: ViewErrorable? { get }
     var loadingView: LoadAnimateable? { get }
     var loadingHud: HUD? { get }
 
     func update(_ errorView: ViewErrorable)
-    func update(_ emptyView: ViewEmptyable)
+    func update(_ emptyView: DataEmptyable)
     func update(_ loadingView: LoadAnimateable)
     func update(_ loadingHud: HUD)
 }
 
 extension EG: Accessorialable where Base: UIView {
-    var emptyView: ViewEmptyable? {
+    var emptyView: DataEmptyable? {
         if view.emptyView == nil {
             update(EmptyView())
         }
@@ -67,7 +67,7 @@ extension EG: Accessorialable where Base: UIView {
 
     /// 更新无数据提示view
     /// - Parameter emptyView: 无数据提示view
-    func update(_ emptyView: ViewEmptyable) {
+    func update(_ emptyView: DataEmptyable) {
         emptyView.frame = view.bounds
         emptyView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.emptyView = emptyView
@@ -87,6 +87,18 @@ extension EG: Accessorialable where Base: UIView {
         view.loadingHud = loadingHud
     }
 
+    public func update(emptyTitle: String) {
+        emptyView?.update(title: emptyTitle)
+    }
+
+    public func update(emptyContent: String) {
+        emptyView?.update(content: emptyContent)
+    }
+
+    public func update(emptyImage: UIImage?) {
+        emptyView?.update(image: emptyImage)
+    }
+
     public func showError(_ error: NTError, atView: UIView? = nil, observer: ErrorHandlerObserverType? = nil) {
         guard let errorView = errorView else { return }
         if let view = atView {
@@ -99,6 +111,7 @@ extension EG: Accessorialable where Base: UIView {
     public func showLoading() {
         guard let loadingView = loadingView else { return }
         print("显示全屏刷新动画", loadingView)
+        loadingView.frame = view.bounds
         loadingView.start()
         view.addSubview(loadingView)
         loadingView.bringSubviewToFront(view)
@@ -119,6 +132,7 @@ extension EG: Accessorialable where Base: UIView {
 
     public func showEmpty() {
         guard let emptyView = emptyView else { return }
+        emptyView.frame = view.bounds
         view.addSubview(emptyView)
     }
 

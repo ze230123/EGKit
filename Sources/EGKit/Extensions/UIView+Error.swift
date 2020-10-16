@@ -50,12 +50,12 @@ extension UIView {
     }
 
     /// 无数据页面提示View
-    var emptyView: ViewEmptyable? {
+    var emptyView: DataEmptyable? {
         set {
             objc_setAssociatedObject(self, &Keys.empty, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
         get {
-            return objc_getAssociatedObject(self, &Keys.empty) as? ViewEmptyable
+            return objc_getAssociatedObject(self, &Keys.empty) as? DataEmptyable
         }
     }
 

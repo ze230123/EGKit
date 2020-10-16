@@ -11,6 +11,10 @@ open class BaseTableViewController: BaseViewController, Refreshable {
     @IBOutlet open var tableView: UITableView!
     public var pageIndex: Int = 1
 
+    open var style: UITableView.Style {
+        return .plain
+    }
+
     /// 刷新行为
     public private(set) var action: RefreshAction = .load
 
@@ -47,9 +51,10 @@ open class BaseTableViewController: BaseViewController, Refreshable {
 extension BaseTableViewController {
     func initTableView() {
         if tableView == nil {
-            tableView = UITableView(frame: view.bounds, style: .plain)
+            tableView = UITableView(frame: view.bounds, style: style)
             tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             view.addSubview(tableView)
         }
+        tableView.tableFooterView = UIView()
     }
 }

@@ -7,8 +7,19 @@
 
 import UIKit
 
-class EmptyView: UIView, ViewEmptyable {
-    lazy var label = UILabel()
+class EmptyView: UIView {
+    lazy var stackView: UIStackView = {
+        let view = UIStackView()
+        view.alignment = .center
+        view.distribution = .fill
+        view.axis = .vertical
+        view.spacing = 5
+        return view
+    }()
+
+    let imageView = UIImageView()
+    let titleLabel = UILabel()
+    let subTitleLabel = UILabel()
 
     deinit {
         print("EmptyView_deinit")
@@ -27,35 +38,42 @@ class EmptyView: UIView, ViewEmptyable {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func updateTitle(_ title: String) {
-        label.text = title
-    }
-
-    func updateContent(_ content: String) {
-    }
 }
 
-extension EmptyView {
+private extension EmptyView {
     func setup() {
-        backgroundColor = .orange
+        backgroundColor = UIColor.clear
 
-        label.text = "没有数据"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "icon_list_empty")
+
+        titleLabel.textColor = UIColor.lightGray
+        titleLabel.font = UIFont.systemFont(ofSize: 15)
+        subTitleLabel.textColor = UIColor.lightGray
+        subTitleLabel.numberOfLines = 0
+        subTitleLabel.font = UIFont.systemFont(ofSize: 12)
+
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subTitleLabel)
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+        stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
 }
 
 extension EmptyView: DataEmptyable {
     func update(title: String) {
-        label.text = title
+        titleLabel.text = title
     }
 
     func update(content: String) {
+        subTitleLabel.text = content
     }
 
     func update(image: UIImage?) {
+        imageView.image = image
     }
 }
