@@ -9,13 +9,13 @@ import UIKit
 import EGRefresh
 
 open class BaseCollectionViewController: BaseViewController, Refreshable {
-    @IBOutlet public var collectionView: UICollectionView!
-    @IBOutlet public var layout: UICollectionViewFlowLayout!
+    @IBOutlet open var collectionView: UICollectionView!
+    @IBOutlet open var layout: UICollectionViewFlowLayout!
 
     public var pageIndex: Int = 1
 
     /// 刷新行为
-    private(set) var action: RefreshAction = .load
+    public private(set) var action: RefreshAction = .load
 
     open override func viewDidLoad() {
         super.viewDidLoad()
