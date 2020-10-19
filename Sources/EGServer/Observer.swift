@@ -13,15 +13,13 @@ import ObjectMapper
 public class Observer<Element>: ObserverType {
     public typealias EventHandler = (Result<Element, ServerError>) -> Void
 
-    public let disposeBag: DisposeBag
     let observer: EventHandler
 
     deinit {
-        print("\(self)_deinit")
+        debugPrint("\(self)_deinit")
     }
 
-    public init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
-        self.disposeBag = disposeBag
+    public init<Observer>(observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
         self.observer = { [weak observer] result in
             switch result {
             case .success(let element):
@@ -32,18 +30,17 @@ public class Observer<Element>: ObserverType {
         }
     }
 
-    public init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
-        self.disposeBag = disposeBag
+    public init(observer: @escaping EventHandler) {
         self.observer = observer
     }
 
     public func on(_ event: Event<Element>) {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [weak self] in
             switch event {
             case .next(let item):
-                self.observer(.success(item))
+                self?.observer(.success(item))
             case .error(let error):
-                self.observer(.failure(ApiException.handleException(error)))
+                self?.observer(.failure(ApiException.handleException(error)))
             case .completed: break
             }
         }
@@ -64,15 +61,13 @@ public class ListObserver<ListElement>: ObserverType {
 
     public typealias EventHandler = (Result<Element, ServerError>) -> Void
 
-    public let disposeBag: DisposeBag
     let observer: EventHandler
 
     deinit {
         print("\(self)_deinit")
     }
 
-    public init<Observer>(disposeBag: DisposeBag, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
-        self.disposeBag = disposeBag
+    public init<Observer>(observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
         self.observer = { [weak observer] result in
             switch result {
             case .success(let element):
@@ -83,18 +78,17 @@ public class ListObserver<ListElement>: ObserverType {
         }
     }
 
-    public init(disposeBag: DisposeBag, observer: @escaping EventHandler) {
-        self.disposeBag = disposeBag
+    public init(observer: @escaping EventHandler) {
         self.observer = observer
     }
 
     public func on(_ event: Event<[ListElement]>) {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [weak self] in
             switch event {
             case .next(let item):
-                self.observer(.success(item))
+                self?.observer(.success(item))
             case .error(let error):
-                self.observer(.failure(ApiException.handleException(error)))
+                self?.observer(.failure(ApiException.handleException(error)))
             case .completed: break
             }
         }

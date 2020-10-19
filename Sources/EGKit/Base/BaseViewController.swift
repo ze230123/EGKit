@@ -11,6 +11,10 @@ import RxSwift
 open class BaseViewController: UIViewController, ErrorHandlerObserverType {
     public let disposeBag = DisposeBag()
 
+    deinit {
+        debugPrint("\(type(of: self))_deinit")
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
