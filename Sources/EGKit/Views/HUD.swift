@@ -56,6 +56,7 @@ extension HUD {
     ///   - completion: 完成闭包
     public static func show(
         _ message: String,
+        to View: UIView? = nil,
         animated: Bool = true,
         delay: TimeInterval = 3,
         completion: Completion? = nil)
@@ -73,6 +74,37 @@ extension HUD {
         hud.label.textColor = .white
         hud.label.numberOfLines = 0
 
+        hud.hide(animated: animated, afterDelay: delay)
+    }
+}
+
+extension HUD {
+    enum Position {
+        case top
+        case center
+        case bottom
+    }
+
+    static func showMessage(_ text: String, to view: UIView, animated: Bool = true, position: Position = .center, delay: TimeInterval = 2) {
+        let hud = MBProgressHUD.showAdded(to: view, animated: animated)
+        hud.bezelView.style = .solidColor
+        hud.bezelView.color = UIColor(white: 0, alpha: 0.8)
+
+        // 隐藏时候从父控件中移除
+        hud.removeFromSuperViewOnHide = true
+        hud.mode = .text
+        hud.label.text = text
+        hud.label.textColor = .white
+        hud.label.numberOfLines = 0
+
+        switch position {
+        case .top:
+            hud.offset = CGPoint(x: 0, y: -200)
+        case .center:
+            hud.offset = CGPoint(x: 0, y: 0)
+        case .bottom:
+            hud.offset = CGPoint(x: 0, y: MBProgressMaxOffset)
+        }
         hud.hide(animated: animated, afterDelay: delay)
     }
 }
