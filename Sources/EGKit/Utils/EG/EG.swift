@@ -59,7 +59,7 @@ extension EG: Accessorialable where Base: UIView {
 
     /// 更新错误提示view
     /// - Parameter errorView: 错误提示view
-    func update(_ errorView: ViewErrorable) {
+    public func update(_ errorView: ViewErrorable) {
         errorView.frame = view.bounds
         errorView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.errorView = errorView
@@ -67,7 +67,7 @@ extension EG: Accessorialable where Base: UIView {
 
     /// 更新无数据提示view
     /// - Parameter emptyView: 无数据提示view
-    func update(_ emptyView: DataEmptyable) {
+    public func update(_ emptyView: DataEmptyable) {
         emptyView.frame = view.bounds
         emptyView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.emptyView = emptyView
@@ -75,7 +75,7 @@ extension EG: Accessorialable where Base: UIView {
 
     /// 更新全屏加载动画视图
     /// - Parameter loadingView: 全屏加载动画
-    func update(_ loadingView: LoadAnimateable) {
+    public func update(_ loadingView: LoadAnimateable) {
         loadingView.frame = view.bounds
         loadingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.loadingView = loadingView

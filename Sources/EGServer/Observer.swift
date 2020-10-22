@@ -34,6 +34,17 @@ public class Observer<Element>: ObserverType {
         self.observer = observer
     }
 
+    public init(onSuccess: @escaping (Element) -> Void, onFailure: @escaping (ServerError) -> Void) {
+        observer = { result in
+            switch result {
+            case .success(let element):
+                onSuccess(element)
+            case .failure(let error):
+                onFailure(error)
+            }
+        }
+    }
+
     public func on(_ event: Event<Element>) {
         DispatchQueue.main.async { [weak self] in
             switch event {
@@ -82,6 +93,17 @@ public class ListObserver<ListElement>: ObserverType {
         self.observer = observer
     }
 
+    public init(onSuccess: @escaping (Element) -> Void, onFailure: @escaping (ServerError) -> Void) {
+        observer = { result in
+            switch result {
+            case .success(let element):
+                onSuccess(element)
+            case .failure(let error):
+                onFailure(error)
+            }
+        }
+    }
+
     public func on(_ event: Event<[ListElement]>) {
         DispatchQueue.main.async { [weak self] in
             switch event {
@@ -103,6 +125,10 @@ public class ObjectListObserver<ListElement>: ListObserver<ListElement> where Li
 }
 
 /// 返回String或`Result`没有返回的观察者
-class VoidObserver: Observer<String> {
+public class VoidObserver: Observer<String> {
     public let map = StringMap()
+
+    public init(onSuccess: @escaping () -> Void, onFailure: @escaping (ServerError) -> Void) {
+        super.init(onSuccess: { _ in onSuccess() }, onFailure: onFailure)
+    }
 }

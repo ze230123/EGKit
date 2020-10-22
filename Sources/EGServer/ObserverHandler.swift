@@ -10,7 +10,7 @@ import UIKit
 /// RxSwift 观察者处理协议
 ///
 /// 将闭包转为方法
-public protocol ObserverHandler where Self: UIViewController {
+public protocol ObserverHandler where Self: NSObject {
     associatedtype Element
 //    func resultHandler(_ result: Swift.Result<Element, ServerError>)
 
