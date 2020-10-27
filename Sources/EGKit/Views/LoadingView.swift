@@ -53,7 +53,7 @@ class LoadingView: UIView, LoadAnimateable {
 
 extension LoadingView {
     func setup() {
-        backgroundColor = .cyan
+        backgroundColor = .white
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)

@@ -16,7 +16,6 @@ class ErrorView: UIView {
         view.distribution = .fill
         view.spacing = 10
 
-        view.backgroundColor = .lightGray
         return view
     }()
 
@@ -38,7 +37,8 @@ class ErrorView: UIView {
 
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .orange
+//        button.backgroundColor = .orange
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         return button
     }()
