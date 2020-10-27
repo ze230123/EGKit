@@ -70,3 +70,30 @@ public extension Refreshable where Self: BaseCollectionViewController {
         willRequest(action: .more)
     }
 }
+
+public extension Refreshable where Self: BaseStackViewController {
+    func addRefreshHeader() {
+        let header = RefreshNormalHeader { [weak self] in
+            self?.loadData()
+        }
+        stackView.rf.header = header
+    }
+
+    func addRefreshFooter() {
+        let footer = RefreshNormalFooter { [weak self] in
+            self?.moreData()
+        }
+        footer.isHidden = true
+        stackView.rf.footer = footer
+    }
+
+    func loadData() {
+        pageIndex = 1
+        willRequest(action: .load)
+    }
+
+    func moreData() {
+        pageIndex += 1
+        willRequest(action: .more)
+    }
+}

@@ -79,13 +79,13 @@ extension HUD {
 }
 
 extension HUD {
-    enum Position {
+    public enum Position {
         case top
         case center
         case bottom
     }
 
-    static func showMessage(_ text: String, to view: UIView, animated: Bool = true, position: Position = .center, delay: TimeInterval = 2) {
+    public static func showMessage(_ text: String, to view: UIView, animated: Bool = true, position: Position = .center, delay: TimeInterval = 2) {
         let hud = MBProgressHUD.showAdded(to: view, animated: animated)
         hud.bezelView.style = .solidColor
         hud.bezelView.color = UIColor(white: 0, alpha: 0.8)

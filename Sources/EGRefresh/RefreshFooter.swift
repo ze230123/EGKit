@@ -62,7 +62,7 @@ open class RefreshFooter: Refresh {
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard state != .refreshing && state != .noMoreData && state != .finish else { return }
+        guard state != .refreshing && state != .noMoreData && state != .finish && !isHidden else { return }
 
         if scrollView.contentSize.height + scrollView.contentInset.top > scrollView.bounds.size.height {
             // 内容超过一个屏幕 计算公式，判断是不是在拖在到了底部
