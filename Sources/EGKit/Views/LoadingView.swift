@@ -19,6 +19,10 @@ class LoadingView: UIView, LoadAnimateable {
 
     public var isLoading: Bool = true
 
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+
     deinit {
         stop()
         print("LoadingView_deinit")
@@ -29,8 +33,9 @@ class LoadingView: UIView, LoadAnimateable {
         setup()
     }
 
-    private override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
+        setup()
     }
 
     required init?(coder: NSCoder) {

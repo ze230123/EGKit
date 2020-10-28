@@ -12,12 +12,15 @@ public struct HUD {
     public typealias Completion = () -> Void
 
     private let hud: MBProgressHUD
+    private weak var view: UIView?
 
-    init(hud: MBProgressHUD) {
+    init(hud: MBProgressHUD, view: UIView) {
         self.hud = hud
+        self.view = view
     }
 
     public func show(animated: Bool = true) {
+        view?.addSubview(hud)
         hud.show(animated: animated)
     }
 
@@ -42,7 +45,7 @@ extension HUD {
     static func loading(to view: UIView) -> HUD {
         let hud = MBProgressHUD(view: view)
         updateLoadingHud(hud)
-        return HUD(hud: hud)
+        return HUD(hud: hud, view: view)
     }
 }
 
