@@ -110,4 +110,20 @@ extension HUD {
         }
         hud.hide(animated: animated, afterDelay: delay)
     }
+
+    public static func showTips(_ text: String, to view: UIView, delay: TimeInterval = 3) {
+        let hud = MBProgressHUD.showAdded(to: view, animated: true)
+        hud.bezelView.style = .solidColor
+        hud.bezelView.color = UIColor(white: 0, alpha: 0.8)
+
+        // 隐藏时候从父控件中移除
+        hud.removeFromSuperViewOnHide = true
+        hud.mode = .text
+        hud.label.text = text
+        hud.label.textAlignment = .left
+        hud.label.textColor = .white
+        hud.label.numberOfLines = 0
+
+        hud.hide(animated: true, afterDelay: delay)
+    }
 }
