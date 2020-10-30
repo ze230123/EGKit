@@ -8,15 +8,37 @@
 import Foundation
 import ObjectMapper
 
+/// 判断请求是否成功的`属性`
+///
+/// 由于项目中有两种网络数据返回格式，所以做如下判断
+public enum SuccessKey {
+    case code
+    case isSuccess
+
+    func getIsSuccess(_ item: Successable) -> Bool {
+        switch self {
+        case .code:
+            return item.isSuccessCode
+        case .isSuccess:
+            return item.isSuccess
+        }
+    }
+}
+
 /// 对象转换工具
 ///
 /// `result`为字典时使用此方法
 public struct ObjectMap<Element>: MapHandler where Element: Mappable {
-    public init() {}
+
+    let key: SuccessKey
+
+    public init(key: SuccessKey = .isSuccess) {
+        self.key = key
+    }
 
     public func mapHttpObject() -> (String) throws -> CacheResult<Element> {
         return { value in
-            let (jsonString, result) = try ObjectMapper<Element>().mapRoot(value)
+            let (jsonString, result) = try ObjectMapper<Element>().mapRoot(value, forKey: key)
             return CacheResult<Element>(jsonString: jsonString, result: result)
         }
     }
@@ -37,11 +59,15 @@ public struct ObjectMap<Element>: MapHandler where Element: Mappable {
 public struct ListMap<ListElement>: MapHandler where ListElement: Mappable {
     public typealias Element = [ListElement]
 
-    public init() {}
+    let key: SuccessKey
+
+    public init(key: SuccessKey = .isSuccess) {
+        self.key = key
+    }
 
     public func mapHttpObject() -> (String) throws -> CacheResult<Element> {
         return { value in
-            let (jsonString, result) = try ListMapper<ListElement>().mapRoot(value)
+            let (jsonString, result) = try ListMapper<ListElement>().mapRoot(value, forKey: key)
             return CacheResult<Element>(jsonString: jsonString, result: result)
         }
     }
@@ -62,11 +88,15 @@ public struct ListMap<ListElement>: MapHandler where ListElement: Mappable {
 public struct StringMap: MapHandler {
     public typealias Element = String
 
-    public init() {}
+    let key: SuccessKey
+
+    public init(key: SuccessKey = .isSuccess) {
+        self.key = key
+    }
 
     public func mapHttpObject() -> (String) throws -> CacheResult<String> {
         return { value in
-            let result = try StringMapper().map(value)
+            let result = try StringMapper().map(value, forKey: key)
             return CacheResult(jsonString: result, result: result)
         }
     }

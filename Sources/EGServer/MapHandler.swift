@@ -11,6 +11,7 @@ import Foundation
 public protocol MapHandler {
     /// 数据类型
     associatedtype Element
+
     /// 服务器json转模型
     func mapHttpObject() -> (String) throws -> CacheResult<Element>
     /// 本地缓存json转模型

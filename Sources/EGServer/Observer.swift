@@ -60,13 +60,17 @@ public class Observer<Element>: ObserverType {
 
 /// 遵守`Mappable`协议观察者
 public class ObjectObserver<Element>: Observer<Element> where Element: Mappable {
-    public let map = ObjectMap<Element>()
+    public private(set) var map: ObjectMap<Element>!
+
+    public init<Observer>(key: SuccessKey = .isSuccess, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
+        map =  ObjectMap<Element>(key: key)
+        super.init(observer: observer)
+    }
 }
 
 /// 任意对象列表观察者
 ///
-/// `ListElement`没有限定类型，如果有自定义类型和继承此类，自行实现mapObject()
-/// `Mappable`类型的数据模型请使用`ObjectListObserver`
+/// `ListElement`没有限定类型，如果有自定义类型和继承此类，自行实现mapObject()wwwwwwwwwwww/// `Mappable`类型的数据模型请使用`ObjectListObserver`
 public class ListObserver<ListElement>: ObserverType {
     public typealias Element = [ListElement]
 
@@ -121,7 +125,14 @@ public class ListObserver<ListElement>: ObserverType {
 ///
 /// `ListElement`遵守`Mappable`协议
 public class ObjectListObserver<ListElement>: ListObserver<ListElement> where ListElement: Mappable {
-    public let map = ListMap<ListElement>()
+//    public let map = ListMap<ListElement>()
+
+    public private(set) var map: ListMap<ListElement>!
+
+    public init<Observer>(key: SuccessKey = .isSuccess, observer: Observer) where Element == Observer.Element, Observer: ObserverHandler {
+        map =  ListMap<ListElement>(key: key)
+        super.init(observer: observer)
+    }
 }
 
 /// 返回String或`Result`没有返回的观察者

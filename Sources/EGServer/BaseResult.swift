@@ -22,7 +22,26 @@ private extension Map {
     }
 }
 
-struct ObjectResult<Element>: Mappable where Element: Mappable {
+/// Int/String 转为 String
+let ToStringTransform = TransformOf<String, Any>(fromJSON: { (value: Any?) -> String? in
+    // 把值从 String? 转成 Int?
+    if let newValue = value as? String {
+        return newValue
+    }
+    if let newValue = value as? Int {
+        return "\(newValue)"
+    }
+    return nil
+}, toJSON: { (value: String?) -> Any? in
+    return value
+})
+
+protocol Successable {
+    var isSuccessCode: Bool { get }
+    var isSuccess: Bool { get set }
+}
+
+struct ObjectResult<Element>: Mappable, Successable where Element: Mappable {    
     var message: String = ""
     var result: Element?
     var code: String = ""
@@ -30,19 +49,24 @@ struct ObjectResult<Element>: Mappable where Element: Mappable {
     /// 需要保存的`result`jsonString
     var resultValue: String?
 
+    /// 使用code判断请求是否成功
+    var isSuccessCode: Bool {
+        return code == "1"
+    }
+
     init?(map: Map) {}
 
     mutating func mapping(map: Map) {
         message     <- map["message"]
         result      <- map["result"]
-        code        <- map["code"]
+        code        <- (map["code"], ToStringTransform)
         isSuccess   <- map["isSuccess"]
 
         resultValue = map["result"].toJSONString()
     }
 }
 
-struct ListResult<Element>: Mappable where Element: Mappable {
+struct ListResult<Element>: Mappable, Successable where Element: Mappable {
     var message: String = ""
     var result: [Element] = []
     var code: String = ""
@@ -51,23 +75,33 @@ struct ListResult<Element>: Mappable where Element: Mappable {
     /// 需要保存的`result`jsonString
     var resultValue: String?
 
+    /// 使用code判断请求是否成功
+    var isSuccessCode: Bool {
+        return code == "1"
+    }
+
     init?(map: Map) {}
 
     mutating func mapping(map: Map) {
         message     <- map["message"]
         result      <- map["result"]
-        code        <- map["code"]
+        code        <- (map["code"], ToStringTransform)
         isSuccess   <- map["isSuccess"]
 
         resultValue = map["result"].toJSONString()
     }
 }
 
-struct StringResult: Mappable {
+struct StringResult: Mappable, Successable {
     var message: String = ""
     var result: String = ""
     var code: String = ""
     var isSuccess: Bool = false
+
+    /// 使用code判断请求是否成功
+    var isSuccessCode: Bool {
+        return code == "1"
+    }
 
     init?(map: Map) {}
 
