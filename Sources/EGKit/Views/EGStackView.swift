@@ -109,8 +109,20 @@ public extension EGStackView {
     }
 
     func scrollToView<V>(_ view: V, animated: Bool) where V: UIView, V: Nesteable {
-        guard let subView = subviewsInLayoutOrder.first(where: { $0 == view }) else  { return }
-        setContentOffset(CGPoint(x: 0, y: subView.frame.origin.y), animated: animated)
+//        guard let subView = subviewsInLayoutOrder.first(where: { $0 == view }) else  { return }
+        var y: CGFloat = 0
+        for subView in subviewsInLayoutOrder {
+            if view == subView {
+                break
+            }
+            if let scrollView = subView.scrollView {
+                 y += scrollView.contentSize.height
+            } else {
+                y += subView.frame.height
+            }
+        }
+        debugPrint("滚动到: ", y)
+        setContentOffset(CGPoint(x: 0, y: y), animated: animated)
     }
 
     func reload() {
