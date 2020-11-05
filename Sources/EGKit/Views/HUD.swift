@@ -65,6 +65,7 @@ extension HUD {
         completion: Completion? = nil)
     {
         guard let view = UIApplication.shared.keyWindow else { return }
+
         let hud = MBProgressHUD.showAdded(to: view, animated: true)
         hud.bezelView.style = .solidColor
         hud.bezelView.color = UIColor(white: 0, alpha: 0.8)
@@ -88,7 +89,9 @@ extension HUD {
         case bottom
     }
 
-    public static func showMessage(_ text: String, to view: UIView, animated: Bool = true, position: Position = .center, delay: TimeInterval = 2) {
+    public static func showMessage(_ text: String, to view: UIView?, animated: Bool = true, position: Position = .center, delay: TimeInterval = 2) {
+        guard let view = view else { return }
+
         let hud = MBProgressHUD.showAdded(to: view, animated: animated)
         hud.bezelView.style = .solidColor
         hud.bezelView.color = UIColor(white: 0, alpha: 0.8)
