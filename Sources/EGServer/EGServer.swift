@@ -42,6 +42,13 @@ public class EGServer {
         rxCache = RxCache(scheduler: scheduler)
     }
 
+    public func upload(api: TargetType) -> Observable<Response> {
+        return provider
+            .rx.request(MultiTarget(api))
+            .asObservable()
+            .filter(statusCode: 200)
+    }
+
     /// 发送请求
     /// - Parameters:
     ///   - api: 请求API
@@ -76,9 +83,6 @@ public class EGServer {
     ///   - map: 数据转换工具
     /// - Returns: 返回数据可观察对象
     func toObservable<Map, Element>(_ observable: Observable<CacheResult<Element>>, strategy: BaseStrategy, map: Map) -> Observable<Element> where Map: MapHandler, Element == Map.Element {
-//        guard let handler = recordHandler?() else {
-//            fatalError("recordHandler 没有实现")
-//        }
         return strategy.execute(rxCache, handler: record, map: map, observable: observable)
     }
 }
