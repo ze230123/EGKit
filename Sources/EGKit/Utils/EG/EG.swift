@@ -130,9 +130,13 @@ extension EG: Accessorialable where Base: UIView {
         loadingHud?.hide()
     }
 
-    public func showEmpty() {
+    public func showEmpty(at rect: CGRect? = nil) {
         guard let emptyView = emptyView else { return }
-        emptyView.frame = view.bounds
+        if let rect = rect {
+            emptyView.frame = rect
+        } else {
+            emptyView.frame = view.bounds
+        }
         view.addSubview(emptyView)
     }
 

@@ -8,14 +8,32 @@
 import UIKit
 
 extension UITableView {
-    public func reloadDataIfEmpty(_ type: CheckType = .row) {
+    public func reloadDataIfEmpty(_ type: CheckType = .row, isShowHeader: Bool = false) {
         reloadData()
         let isEmpty = dataIsEmpty(type: type)
         if isEmpty {
-            eg.showEmpty()
+            eg.showEmpty(at: emptyRect(isShowHeader))
         } else {
             eg.hideEmpty()
         }
+    }
+
+    private func emptyRect(_ isShowHeader: Bool) -> CGRect {
+        var y = tableHeaderView?.frame.maxY ?? 0
+
+        if isShowHeader {
+            if let height = delegate?.tableView?(self, heightForHeaderInSection: 0) {
+                y += height
+            } else {
+                y += sectionHeaderHeight
+            }
+        }
+
+        let h: CGFloat = bounds.height - y
+//        if let value = height {
+//            h = value
+//        }
+        return CGRect(x: 0, y: y, width: bounds.width, height: h)
     }
 
     /// 判断是否没有数据
