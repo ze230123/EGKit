@@ -92,6 +92,33 @@ struct ListResult<Element>: Mappable, Successable where Element: Mappable {
     }
 }
 
+struct ListStringResult: Mappable, Successable {
+    var message: String = ""
+    var result: [String] = []
+    var code: String = ""
+    var isSuccess: Bool = false
+
+    /// 需要保存的`result`jsonString
+    var resultValue: String?
+
+    /// 使用code判断请求是否成功
+    var isSuccessCode: Bool {
+        return code == "1"
+    }
+
+    init?(map: Map) {}
+
+    mutating func mapping(map: Map) {
+        message     <- map["message"]
+        result      <- map["result"]
+        code        <- map["code"]
+        isSuccess   <- map["isSuccess"]
+
+        resultValue = map["result"].toJSONString()
+    }
+}
+
+
 struct StringResult: Mappable, Successable {
     var message: String = ""
     var result: String = ""

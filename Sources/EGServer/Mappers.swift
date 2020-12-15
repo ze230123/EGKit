@@ -65,6 +65,41 @@ struct ListMapper<Element> where Element: Mappable {
     }
 }
 
+/// 数据模型转换处理[string]
+struct ListStringMapper {
+    /// 将网络JSON转为模型
+    /// - Parameters:
+    ///   - JSONString: JSON String
+    ///   - forKey: 判断请求是否成功的`key`
+    /// - Throws: 转换数据发生的错误
+    /// - Returns: 元组： `result`节点的JSON String，Result节点的模型
+    func mapRoot(_ JSONString: String, forKey: SuccessKey) throws -> (String?, [String]) {
+        guard let item = Mapper<ListStringResult>().map(JSONString: JSONString) else {
+            throw ServerError(mode: .dataMapping)
+        }
+        guard forKey.getIsSuccess(item) else {
+            throw ServerError(mode: .server(item.message))
+        }
+        return (item.resultValue, item.result)
+    }
+
+    func mapList(_ JSONString: String) throws -> [String] {
+        /// 将json字符串转换为数组
+        let data = JSONString.data(using: String.Encoding.utf8, allowLossyConversion: true)
+        if let data = data {
+            let parsedJSON: [String]?
+            do {
+                parsedJSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String]
+            } catch let error {
+                print(error)
+                parsedJSON = nil
+            }
+            return parsedJSON ?? []
+        }
+        return []
+    }
+}
+
 /// 数据模型转换处理
 struct StringMapper {
     /// 将网络JSON转为模型

@@ -82,6 +82,35 @@ public struct ListMap<ListElement>: MapHandler where ListElement: Mappable {
     }
 }
 
+/// 数组转换工具
+///
+/// `result`为[string]使用此方法
+public struct ListStringMap: MapHandler {
+    public typealias Element = [String]
+
+    let key: SuccessKey
+
+    public init(key: SuccessKey = .isSuccess) {
+        self.key = key
+    }
+
+    public func mapHttpObject() -> (String) throws -> CacheResult<Element> {
+        return { value in
+            let (jsonString, result) = try ListStringMapper().mapRoot(value, forKey: key)
+            return CacheResult<Element>(jsonString: jsonString, result: result)
+        }
+    }
+
+    public func mapCacheObject(_ value: String) throws -> CacheResult<Element> {
+        let result = try ListStringMapper().mapList(value)
+        return CacheResult(jsonString: value, result: result)
+    }
+
+    public func mapResultString(_ value: CacheResult<Element>) -> String? {
+        return value.jsonString
+    }
+}
+
 /// String转换工具
 ///
 /// `result`为String或没有`result`字段时使用此方法
