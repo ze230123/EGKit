@@ -32,6 +32,8 @@ public class RefreshNormalFooter: RefreshFooter {
     public var retryBlock: (() -> Void)?
 
     override func prepare() {
+        backgroundColor = .clear
+
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

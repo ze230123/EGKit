@@ -22,6 +22,8 @@ open class Refresh: UIView {
         return frame.height
     }
 
+    var isError: Bool = false
+
     let completion: Completion?
 
     deinit {
@@ -126,6 +128,7 @@ public extension Refresh {
 
     /// 开始刷新
     func beginRefresh() {
+        guard !isError else { return }
         if window != nil {
             state = .refreshing
         } else {

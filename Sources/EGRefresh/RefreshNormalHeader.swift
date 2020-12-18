@@ -103,6 +103,8 @@ public class RefreshNormalHeader: RefreshHeader {
     public override func endRefresh(error: Error) {
         state = .finish
 
+        isError = true
+
         errorLabel.text = error.localizedDescription
         errorLabel.frame = bounds
         errorLabel.alpha = 0
@@ -111,6 +113,7 @@ public class RefreshNormalHeader: RefreshHeader {
         func endAnimate() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 self?.endRefresh()
+                self?.isError = false
             }
         }
 

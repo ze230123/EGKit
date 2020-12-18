@@ -12,6 +12,8 @@ open class RefreshHeader: Refresh {
     /// 刷新状态
     override var state: RefreshState {
         didSet {
+            guard state != oldValue else { return }
+
             switch state {
             case .none:
                 isHidden = true
@@ -90,22 +92,26 @@ private extension RefreshHeader {
     func startRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
 //        print("开始刷新动画")
-        contentInset = scrollView.contentInset
-        let insetTop = contentInset.top + height
-        UIView.animate(withDuration: 0.25, animations: {
-            scrollView.contentInset.top = insetTop
-            scrollView.contentOffset.y = -scrollView.inset.top
-        }) { [unowned self] (_) in
-            self.completion?()
+        DispatchQueue.main.async {
+            self.contentInset = scrollView.contentInset
+            let insetTop = self.contentInset.top + self.height
+            UIView.animate(withDuration: 0.25, animations: {
+                scrollView.contentInset.top = insetTop
+                scrollView.contentOffset.y = -scrollView.inset.top
+            }) { [unowned self] (_) in
+                self.completion?()
+            }
         }
     }
 
     func stopRefreshing() {
         guard let scrollView = superview as? UIScrollView else { return }
 //        print("结束刷新动画")
-        let top = contentInset.top
-        UIView.animate(withDuration: 0.25) {
-            scrollView.contentInset.top = top
+        DispatchQueue.main.async {
+            let top = self.contentInset.top
+            UIView.animate(withDuration: 0.25) {
+                scrollView.contentInset.top = top
+            }
         }
     }
 }
