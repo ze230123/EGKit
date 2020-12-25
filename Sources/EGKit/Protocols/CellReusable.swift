@@ -8,7 +8,7 @@
 import UIKit
 
 /// Cell快速注册，获取协议
-protocol CellReusable: class {
+public protocol CellReusable: class {
     /// 复用ID
     static var reuseableIdentifier: String {get}
     static var nib: UINib? {get}
