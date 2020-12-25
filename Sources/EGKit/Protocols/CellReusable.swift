@@ -8,7 +8,7 @@
 import UIKit
 
 /// Cell快速注册，获取协议
-public protocol CellReusable: class {
+protocol CellReusable: class {
     /// 复用ID
     static var reuseableIdentifier: String {get}
     static var nib: UINib? {get}
@@ -55,7 +55,7 @@ extension CellReusable where Self: UICollectionReusableView {
 }
 
 /// Cell配置数据协议
-protocol CellConfigurable: CellReusable {
+public protocol CellConfigurable: CellReusable {
     associatedtype T
     func configure(_ item: T)
 }
