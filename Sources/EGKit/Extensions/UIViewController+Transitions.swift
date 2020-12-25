@@ -55,23 +55,3 @@ extension UIViewController {
         NotificationCenter.default.addObserver(self, selector: selector, name: name, object: object)
     }
 }
-
-extension UIViewController {
-    /// 保持某一页面在navigation堆栈中只有一个
-    func keepOneController(_ isIncluded: (UIViewController) -> Bool) {
-        let viewControllers = rt_navigationController.rt_viewControllers.dropLast()
-
-        var vcTypeArr: [UIViewController] = []
-
-        for vc in viewControllers.reversed() {
-            if !isIncluded(vc) {
-                break
-            }
-            vcTypeArr.append(vc)
-        }
-
-        vcTypeArr.forEach { (vc) in
-            rt_navigationController.removeViewController(vc, animated: false)
-        }
-    }
-}
