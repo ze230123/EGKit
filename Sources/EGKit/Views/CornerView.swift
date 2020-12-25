@@ -1,16 +1,17 @@
 //
-//  CornerButton.swift
-// 
+//  CornerView.swift
+//  
 //
 //  Created by dev-02 on 2020/12/25.
-//
 //
 
 import UIKit
 
-/// 圆角Button
+/// 圆角View
 @IBDesignable
-class CornerButton: UIButton {
+class CornerView: UIView {
+    @IBInspectable var isRadius: Bool = false
+
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -23,9 +24,10 @@ class CornerButton: UIButton {
         }
     }
 
-    @IBInspectable var numberOfLines: Int = 0 {
-        didSet {
-            titleLabel?.numberOfLines = numberOfLines
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if isRadius {
+            layer.cornerRadius = frame.height / 2
         }
     }
 }
