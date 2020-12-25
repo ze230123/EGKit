@@ -14,7 +14,7 @@ public protocol CellReusable: class {
     static var nib: UINib? {get}
 }
 
-extension CellReusable where Self: UITableViewCell {
+public extension CellReusable where Self: UITableViewCell {
     static var reuseableIdentifier: String {
         return String(describing: self)
     }
@@ -24,7 +24,7 @@ extension CellReusable where Self: UITableViewCell {
     }
 }
 
-extension CellReusable where Self: UITableViewHeaderFooterView {
+public extension CellReusable where Self: UITableViewHeaderFooterView {
     static var reuseableIdentifier: String {
         return String(describing: self)
     }
@@ -34,7 +34,7 @@ extension CellReusable where Self: UITableViewHeaderFooterView {
     }
 }
 
-extension CellReusable where Self: UICollectionViewCell {
+public extension CellReusable where Self: UICollectionViewCell {
     static var reuseableIdentifier: String {
         return String(describing: self)
     }
@@ -44,7 +44,7 @@ extension CellReusable where Self: UICollectionViewCell {
     }
 }
 
-extension CellReusable where Self: UICollectionReusableView {
+public extension CellReusable where Self: UICollectionReusableView {
     static var reuseableIdentifier: String {
         return String(describing: self)
     }

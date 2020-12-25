@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UITableView {
+public extension UITableView {
     /// 注册cell
     func registerCell<C: UITableViewCell>(_ cell: C.Type) where C: CellReusable {
         if let nib = C.nib {
