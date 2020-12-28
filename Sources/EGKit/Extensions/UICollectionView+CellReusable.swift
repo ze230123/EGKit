@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UICollectionView {
+public extension UICollectionView {
     // MARK: - 注册
     /// 注册cell
     func registerCell<C: UICollectionViewCell>(_ cell: C.Type) where C: CellConfigurable {
