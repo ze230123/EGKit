@@ -12,7 +12,7 @@ public protocol NibLoadable: class {
     func initViewFromNib(name: String, enabled: Bool)
 }
 
-extension NibLoadable where Self: UIView {
+public extension NibLoadable where Self: UIView {
 
     func loadViewFromNib(name: String = "") -> UIView {
         let className = type(of: self)

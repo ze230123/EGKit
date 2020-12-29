@@ -1,20 +1,21 @@
 //
-//  BorderLabel.swift
+//  BorderButton.swift
 //  
 //
-//  Created by dev-02 on 2020/12/28.
+//  Created by dev-02 on 2020/12/29.
 //
+
 import UIKit
 
 @IBDesignable
-public class BorderLabel: CornerLabel {
+public class BorderButton: CornerButton {
     @IBInspectable public var borderColor: UIColor? = UIColor.white {
         didSet {
             layer.borderColor = borderColor?.cgColor
         }
     }
 
-  @IBInspectable public var borderWidth: CGFloat = 0 {
+    @IBInspectable var borderWidth: CGFloat = 0 {
         didSet {
             layer.borderWidth = borderWidth
         }

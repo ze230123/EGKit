@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-class CornerLabel: UILabel {
+public class CornerLabel: UILabel {
 
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {

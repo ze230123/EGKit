@@ -10,7 +10,7 @@ import UIKit
 
 /// 圆角Button
 @IBDesignable
-class CornerButton: UIButton {
+public class CornerButton: UIButton {
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
