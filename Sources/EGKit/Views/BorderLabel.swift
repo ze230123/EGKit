@@ -7,14 +7,14 @@
 import UIKit
 
 @IBDesignable
-class BorderLabel: CornerLabel {
-    @IBInspectable var borderColor: UIColor? = UIColor.white {
+public class BorderLabel: CornerLabel {
+    @IBInspectable public var borderColor: UIColor? = UIColor.white {
         didSet {
             layer.borderColor = borderColor?.cgColor
         }
     }
 
-    @IBInspectable var borderWidth: CGFloat = 0 {
+    @IBInspectable public var borderWidth: CGFloat = 0 {
         didSet {
             layer.borderWidth = borderWidth
         }
