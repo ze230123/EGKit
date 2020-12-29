@@ -20,6 +20,7 @@ open class BaseViewController: UIViewController, ErrorHandlerObserverType {
         view.backgroundColor = .white
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     /// 网络请求、子类重写

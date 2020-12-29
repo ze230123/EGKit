@@ -52,5 +52,7 @@ extension BaseCollectionViewController {
             collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             view.addSubview(collectionView)
         }
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
     }
 }
