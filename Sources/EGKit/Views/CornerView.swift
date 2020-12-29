@@ -9,22 +9,22 @@ import UIKit
 
 /// 圆角View
 @IBDesignable
-class CornerView: UIView {
-    @IBInspectable var isRadius: Bool = false
+public class CornerView: UIView {
+    @IBInspectable public var isRadius: Bool = false
 
-    @IBInspectable var cornerRadius: CGFloat = 0 {
+    @IBInspectable public var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
     }
 
-    @IBInspectable var masksToBounds: Bool = false {
+    @IBInspectable public var masksToBounds: Bool = false {
         didSet {
             layer.masksToBounds = masksToBounds
         }
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         if isRadius {
             layer.cornerRadius = frame.height / 2

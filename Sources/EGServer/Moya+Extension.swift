@@ -8,7 +8,6 @@
 import Moya
 
 public typealias Parameters = [String: Any]
-public typealias Method = Moya.Method
 
 public protocol MoyaAddable {
     var policy: CachePolicy { get }

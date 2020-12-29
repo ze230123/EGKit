@@ -10,13 +10,13 @@ import UIKit
 @IBDesignable
 public class CornerLabel: UILabel {
 
-    @IBInspectable var cornerRadius: CGFloat = 0 {
+    @IBInspectable public var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
     }
 
-    @IBInspectable var masksToBounds: Bool = false {
+    @IBInspectable public var masksToBounds: Bool = false {
         didSet {
             layer.masksToBounds = masksToBounds
         }
