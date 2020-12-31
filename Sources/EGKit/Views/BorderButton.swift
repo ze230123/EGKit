@@ -15,7 +15,7 @@ public class BorderButton: CornerButton {
         }
     }
 
-    @IBInspectable var borderWidth: CGFloat = 0 {
+    @IBInspectable public var borderWidth: CGFloat = 0 {
         didSet {
             layer.borderWidth = borderWidth
         }

@@ -9,7 +9,7 @@ import UIKit
 
 @IBDesignable
 public class CornerImageView: UIImageView {
-    @IBInspectable var cornerRadius: CGFloat = 0 {
+    @IBInspectable public var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
