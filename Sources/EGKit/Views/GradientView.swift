@@ -16,7 +16,7 @@ public class GradientView: ShadowView {
     @IBInspectable var startPoint: CGPoint = CGPoint(x: 0.5, y: 0)
     @IBInspectable var endPoint: CGPoint = CGPoint(x: 0.5, y: 1)
 
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -53,7 +53,7 @@ public class ThreeGradientView: ShadowView {
     @IBInspectable var minColor: UIColor = UIColor.white
     @IBInspectable var endColor: UIColor = UIColor.white
 
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -89,7 +89,7 @@ public class GradientOtherView: ShadowView {
     @IBInspectable var startColor: UIColor = UIColor.white
     @IBInspectable var endColor: UIColor = UIColor.white
 
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }

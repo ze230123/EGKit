@@ -16,7 +16,7 @@ public class DottedLineView: UIView {
     @IBInspectable var line: CGFloat = 2
     @IBInspectable var space: CGFloat = 3
 
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         // 获取上下文
         guard let context = UIGraphicsGetCurrentContext() else {
             return
