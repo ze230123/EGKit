@@ -9,7 +9,7 @@
 import UIKit
 /// 虚线view
 @IBDesignable
-class DottedLineView: UIView {
+public class DottedLineView: UIView {
 
     @IBInspectable var lineColor: UIColor = UIColor(hex: 0xE9E9E9)
 

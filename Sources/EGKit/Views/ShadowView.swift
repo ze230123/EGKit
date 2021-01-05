@@ -10,7 +10,7 @@ import UIKit
 
 /// 阴影view
 @IBDesignable
-class ShadowView: CornerView {
+public class ShadowView: CornerView {
     /// 阴影颜色
     @IBInspectable var shadowColor: UIColor? {
         didSet {

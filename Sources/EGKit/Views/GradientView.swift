@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class GradientView: ShadowView {
+public class GradientView: ShadowView {
     @IBInspectable var startColor: UIColor = UIColor.white
     @IBInspectable var endColor: UIColor = UIColor.white
 
@@ -48,7 +48,7 @@ private extension GradientView {
 }
 
 @IBDesignable
-class ThreeGradientView: ShadowView {
+public class ThreeGradientView: ShadowView {
     @IBInspectable var startColor: UIColor = UIColor.white
     @IBInspectable var minColor: UIColor = UIColor.white
     @IBInspectable var endColor: UIColor = UIColor.white
@@ -85,7 +85,7 @@ private extension ThreeGradientView {
 }
 
 @IBDesignable
-class GradientOtherView: ShadowView {
+public class GradientOtherView: ShadowView {
     @IBInspectable var startColor: UIColor = UIColor.white
     @IBInspectable var endColor: UIColor = UIColor.white
 
