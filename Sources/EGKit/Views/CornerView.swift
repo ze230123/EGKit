@@ -31,3 +31,27 @@ public class CornerView: UIView {
         }
     }
 }
+
+@IBDesignable
+open class BorderView: CornerView {
+    @IBInspectable public var borderColor: UIColor? = UIColor.white {
+        didSet {
+            layer.borderColor = borderColor?.cgColor
+        }
+    }
+
+    @IBInspectable public var borderWidth: CGFloat = 0 {
+        didSet {
+            layer.borderWidth = borderWidth
+        }
+    }
+}
+
+@IBDesignable
+open class CornerImageView: UIImageView {
+    @IBInspectable public var cornerRadius: CGFloat = 0 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+        }
+    }
+}
