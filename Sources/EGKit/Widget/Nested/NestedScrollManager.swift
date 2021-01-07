@@ -44,7 +44,7 @@ open class NestedScrollManager {
         setupMainScrollViewObservation()
     }
 
-    open func willDisplayChildScrollView(_ scrollView: UIScrollView) {
+    public func willDisplayChildScrollView(_ scrollView: UIScrollView) {
         // 如果主视图滚动位置y小于头视图高度，说明头视图位置已经进入视线
         // 将子视图滚动位置归零
         if mainScrollView.contentOffset.y < headerView.frame.height - betweenHeight {
@@ -53,7 +53,7 @@ open class NestedScrollManager {
         }
     }
 
-    open func didDisplayChildScrollView(_ scrollView: UIScrollView) {
+    public func didDisplayChildScrollView(_ scrollView: UIScrollView) {
         childScrollView = scrollView
         setupChildScrollViewObservation()
     }
