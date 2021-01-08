@@ -22,6 +22,9 @@ open class BaseFromViewController: FormViewController, ErrorHandlerObserverType 
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.shadowImage = UIImage()
+
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
     }
 
     /// 网络请求、子类重写
