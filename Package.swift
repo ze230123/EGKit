@@ -18,14 +18,15 @@ let package = Package(
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "14.0.0")),
         .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", .upToNextMajor(from: "4.2.0")),
         .package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "1.2.0")),
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", .exact("5.1.1"))
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", .exact("5.1.1")),
+        .package(url: "https://github.com/xmartlabs/Eureka.git", .upToNextMajor(from: "5.3.2"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "EGKit",
-            dependencies: ["EGServer", "MBProgressHUD", "EGRefresh", "EGUtils"]),
+            dependencies: ["EGServer", "MBProgressHUD", "EGRefresh", "EGUtils", "Eureka"]),
         .target(
             name: "EGServer",
             dependencies: [.product(name: "RxMoya", package: "Moya"), .product(name: "RxCocoa", package: "RxSwift"), "ObjectMapper", "Cache"]),

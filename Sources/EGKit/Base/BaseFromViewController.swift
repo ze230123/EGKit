@@ -1,14 +1,15 @@
 //
-//  BaseViewController.swift
+//  BaseFromViewController.swift
 //  
 //
-//  Created by youzy01 on 2020/9/17.
+//  Created by youzy01 on 2021/1/7.
 //
 
 import UIKit
+import Eureka
 import RxSwift
 
-open class BaseViewController: UIViewController, ErrorHandlerObserverType {
+open class BaseFromViewController: FormViewController, ErrorHandlerObserverType {
     public let disposeBag = DisposeBag()
 
     deinit {

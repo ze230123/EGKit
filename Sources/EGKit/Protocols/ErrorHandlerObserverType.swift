@@ -8,7 +8,7 @@
 import UIKit
 
 /// 错误处理回调
-public protocol ErrorHandlerObserverType where Self: BaseViewController {
+public protocol ErrorHandlerObserverType where Self: UIViewController {
     /// 重试
     func onReTry()
 }
