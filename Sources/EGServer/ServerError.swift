@@ -14,6 +14,9 @@ public struct ServerError: Error {
     var message: String
     public var mode: Mode
 
+    public var code: Int {
+        return mode.code
+    }
     public init(mode: Mode) {
         message = mode.title
         self.mode = mode
@@ -23,6 +26,33 @@ public struct ServerError: Error {
 extension ServerError: LocalizedError {
     public var errorDescription: String? {
         return mode.title
+    }
+}
+
+extension ServerError {
+    struct Code {
+        /// http其他错误
+        static let httpOther = 23001
+        /// 未找到缓存
+        static let noCache = 23002
+        /// 请求过于频繁
+        static let overload = 23003
+        /// 没有网络
+        static let noNetwork = 23004
+        /// 您没有权限查看该数据
+        static let noAuthority = 23005
+        /// 连接超时
+        static let timeout = 23006
+        /// 无法连接主机地址
+        static let unknownHost = 23007
+        /// 数据转换失败
+        static let dataMapping = 23008
+        /// 模型转换失败
+        static let modelMapping = 23009
+        /// 服务器返回错误信息
+        static let server = 230010
+        /// 未知错误
+        static let unknown = 230011
     }
 }
 
@@ -73,6 +103,22 @@ public extension ServerError {
 
         public var content: String {
             return detail.content
+        }
+
+        public var code: Int {
+            switch self {
+            case .httpOther:        return Code.httpOther
+            case .noCache:          return Code.noCache
+            case .overload:         return Code.overload
+            case .noNetwork:        return Code.noNetwork
+            case .noAuthority:      return Code.noAuthority
+            case .timeout:          return Code.timeout
+            case .unknownHost:      return Code.unknownHost
+            case .dataMapping:      return Code.dataMapping
+            case .modelMapping:     return Code.modelMapping
+            case .server:           return Code.server
+            case .unknown:          return Code.unknown
+            }
         }
     }
 }
