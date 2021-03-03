@@ -8,10 +8,10 @@
 import Alamofire
 import Foundation
 
-struct JSONArrayEncoding: ParameterEncoding {
-    static let `default` = JSONArrayEncoding()
+public struct JSONArrayEncoding: ParameterEncoding {
+    public static let `default` = JSONArrayEncoding()
 
-    func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         var request = try urlRequest.asURLRequest()
 
         guard let json = parameters?["jsonArray"] else {
