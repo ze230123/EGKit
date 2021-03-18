@@ -17,11 +17,11 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://gitee.com/4674069/ObjectMapper.git", .upToNextMajor(from: "4.2.0")),
         .package(url: "https://gitee.com/4674069/MBProgressHUD.git", .upToNextMajor(from: "1.2.0")),
-        .package(url: "https://gitee.com/4674069/RxSwift.git", .exact("5.1.1")),
+        .package(url: "https://gitee.com/4674069/RxSwift.git", .upToNextMajor(from: "5.1.1")),
         .package(url: "https://gitee.com/4674069/Eureka.git", .upToNextMajor(from: "5.3.2")),
         .package(url: "https://gitee.com/4674069/ReactiveSwift.git", .upToNextMajor(from: "6.1.0")),
         .package(url: "https://gitee.com/4674069/Alamofire.git", .upToNextMajor(from: "5.0.0")),
-        .package(url: "https://gitee.com/4674069/Moya.git", .upToNextMajor(from: "14.0.0"))
+        .package(url: "https://gitee.com/4674069/Moya.git", .branch("YZY"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
