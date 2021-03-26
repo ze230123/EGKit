@@ -50,6 +50,7 @@ open class RefreshFooter: Refresh {
             frame.origin.y = scrollView.contentSize.height
             frame.size.width = scrollView.frame.width
             frame.size.height = height
+            autoresizingMask = [.flexibleWidth]
             // 如果上拉刷新控件是隐藏的就不设置scrollview的bottom
             if !isHidden {
                 scrollView.contentInset.bottom += height
