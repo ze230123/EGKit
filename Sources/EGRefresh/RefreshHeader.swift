@@ -52,10 +52,9 @@ open class RefreshHeader: Refresh {
         super.willMove(toSuperview: newSuperview)
         // 设置刷新控件frame
         if let scrollView = newSuperview as? UIScrollView {
-            frame.origin.y = -height
-            frame.size.width = scrollView.frame.width
-            frame.size.height = height
-
+//            frame.origin.y = -height
+//            frame.size.width = scrollView.frame.width
+//            frame.size.height = height
             contentInset = scrollView.contentInset
         }
     }

@@ -25,6 +25,13 @@ extension RF {
         nonmutating set {
             if let header = newValue {
                 view.addSubview(header)
+                header.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    header.leftAnchor.constraint(equalTo: view.leftAnchor),
+                    header.rightAnchor.constraint(equalTo: view.rightAnchor),
+                    header.heightAnchor.constraint(equalToConstant: 60),
+                    header.topAnchor.constraint(equalTo: view.topAnchor, constant: -60)
+                ])
             }
             view.header = newValue
         }
