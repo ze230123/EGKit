@@ -32,9 +32,9 @@
         "package": "Moya",
         "repositoryURL": "https://gitee.com/4674069/Moya.git",
         "state": {
-          "branch": "YZY",
-          "revision": "e04f63e53931f2c3e957ed05daee2573119ff72a",
-          "version": null
+          "branch": null,
+          "revision": "8062e846c2b4e246a0681c1a31cd28680a9601f9",
+          "version": "15.0.0"
         }
       },
       {
@@ -44,15 +44,6 @@
           "branch": null,
           "revision": "0b96a734de3ea1c87374ae677064f86adb0716ec",
           "version": "4.2.0"
-        }
-      },
-      {
-        "package": "ReactiveSwift",
-        "repositoryURL": "https://gitee.com/4674069/ReactiveSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "f195d82bb30e412e70446e2b4a77e1b514099e88",
-          "version": "6.1.0"
         }
       },
       {
