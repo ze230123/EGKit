@@ -124,10 +124,12 @@ public extension ServerError {
 }
 
 /// 接口异常处理
-class ApiException {
+public class ApiException {
     static func handleException(_ error: Error) -> ServerError {
         return error.asAPIError()
     }
+    /// 自定义处理（对`403`、`900`做处理）
+    public static var statusCodeCustomHandler: ((Int) -> Void)?
 }
 
 fileprivate extension Error {
@@ -153,6 +155,7 @@ fileprivate extension Error {
 
         switch moyaError {
         case .statusCode(let response):
+            ApiException.statusCodeCustomHandler?(response.statusCode)
             switch response.statusCode {
             case 408:
                 return ServerError(mode: .timeout)

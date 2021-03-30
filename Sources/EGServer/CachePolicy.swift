@@ -65,26 +65,6 @@ public enum CachePolicy {
     ///
     /// 设置接口path、接口参数、缓存所属模块、过期时间
     public struct Config {
-//        public enum Module {
-//            case college
-//            case major
-//            case pcl
-//            case other
-//
-//            var value: String {
-//                switch self {
-//                case .college:
-//                    return "1"
-//                case .major:
-//                    return "2"
-//                case .pcl:
-//                    return "3"
-//                case .other:
-//                    return "4"
-//                }
-//            }
-//        }
-
         let api: String
         let parameters: String
         let module: String
