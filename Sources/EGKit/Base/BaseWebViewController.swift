@@ -103,11 +103,9 @@ private extension BaseWebViewController {
 
         if isChangeTitle {
             titleObservation = webView.observe(\.title) { [weak self] (view, _) in
-                print("webView title 改变: ", view.title)
                 self?.title = view.title
             }
         } else {
-            print("customTitle", customTitle)
             title = customTitle
         }
     }

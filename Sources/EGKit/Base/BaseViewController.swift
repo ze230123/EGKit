@@ -27,7 +27,7 @@ open class BaseViewController: UIViewController, ErrorHandlerObserverType {
     open func request() {
     }
 
-    public func onReTry() {
+    open func onReTry() {
         request()
     }
 
