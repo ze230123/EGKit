@@ -86,16 +86,17 @@ open class RefreshFooter: Refresh {
 
 private extension RefreshFooter {
     func startRefreshing() {
-        guard let scrollView = superview as? UIScrollView else { return }
+//        guard let scrollView = superview as? UIScrollView else { return }
+        completion?()
 //        print("开始上拉加载动画")
-        let x = scrollView.contentOffset.x
-        let y = max(0.0, scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.inset.bottom)
-
-        // Call handler
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveLinear, animations: {
-            scrollView.contentOffset = CGPoint.init(x: x, y: y)
-        }, completion: { (animated) in
-            self.completion?()
-        })
+//        let x = scrollView.contentOffset.x
+//        let y = max(0.0, scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.inset.bottom)
+//
+//        // Call handler
+//        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveLinear, animations: {
+//            scrollView.contentOffset = CGPoint.init(x: x, y: y)
+//        }, completion: { (animated) in
+//            self.completion?()
+//        })
     }
 }
