@@ -23,12 +23,26 @@ final public class Cache {
 //        print(store.path)
     }
 
+    /// 设置缓存
+    /// - Parameters:
+    ///   - cache: 缓存内容
+    ///   - key: 缓存key
+    ///   - expiry: 过期时间, nil == 永久
     public func setCache(_ cache: String, key: String, expiry: Expiry? = nil) {
         store.setObject(cache, forKey: key.md5, expiry: expiry)
     }
 
+    /// 获取缓存
+    /// - Parameter key: 缓存key
+    /// - Returns: 缓存内容
     public func cache(for key: String) -> String? {
         return store.object(forKey: key.md5)
+    }
+
+    /// 删除指定缓存
+    /// - Parameter forKey: 缓存key
+    public func remove(forKey: String) {
+        return store.removeObject(forKey: forKey)
     }
 
     public var totalSize: UInt64 {

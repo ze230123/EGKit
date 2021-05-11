@@ -62,6 +62,20 @@ public enum CachePolicy {
     }
 
     /// 缓存配置
+    var cacheConfig: Config {
+        switch self {
+        case let .none(item):
+            return item
+        case let .cacheAndRequest(item):
+            return item
+        case let .firstCache(item):
+            return item
+        case let .firstRequest(item):
+            return item
+        }
+    }
+
+    /// 缓存配置
     ///
     /// 设置接口path、接口参数、缓存所属模块、过期时间
     public struct Config {
