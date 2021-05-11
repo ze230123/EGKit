@@ -62,7 +62,7 @@ public enum CachePolicy {
     }
 
     /// 缓存配置
-    var cacheConfig: Config {
+    public var cacheConfig: Config {
         switch self {
         case let .none(item):
             return item
