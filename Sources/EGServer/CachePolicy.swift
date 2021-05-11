@@ -92,7 +92,7 @@ public enum CachePolicy {
         }
 
         /// 缓存key
-        var key: String {
+        public var key: String {
             return api + parameters + module
         }
     }
