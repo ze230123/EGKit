@@ -42,7 +42,7 @@ final public class Cache {
     /// 删除指定缓存
     /// - Parameter forKey: 缓存key
     public func remove(forKey: String) {
-        return store.removeObject(forKey: forKey)
+        return store.removeObject(forKey: forKey.md5)
     }
 
     public var totalSize: UInt64 {
