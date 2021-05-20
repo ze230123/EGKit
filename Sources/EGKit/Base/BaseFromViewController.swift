@@ -12,6 +12,18 @@ import RxSwift
 open class BaseFromViewController: FormViewController, ErrorHandlerObserverType {
     public let disposeBag = DisposeBag()
 
+    open override var shouldAutorotate: Bool {
+        return false
+    }
+
+    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+
+    open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .portrait
+    }
+
     deinit {
         debugPrint("\(type(of: self))_deinit")
     }
