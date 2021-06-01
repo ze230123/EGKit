@@ -8,26 +8,72 @@
 import UIKit
 import WebKit
 
+open class ScriptHandler: NSObject {
+    public let name: String
+    private let handler: ((WKScriptMessage) -> Void)?
+
+    deinit {
+        print("ScriptHandler_\(name)_deinit")
+    }
+
+    public init(name: String, handler: ((WKScriptMessage) -> Void)?) {
+        self.name = name
+        self.handler = handler
+        super.init()
+    }
+}
+
+extension ScriptHandler: WKScriptMessageHandler {
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        handler?(message)
+    }
+}
+
 open class BaseWebViewController: BaseViewController {
     public lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+
         let view = WKWebView(frame: .zero, configuration: configuration)
+        view.allowsLinkPreview = false
         view.navigationDelegate = self
+        view.uiDelegate = self
         return view
     }()
 
+    /// 进度条
     lazy var progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .bar)
         return view
     }()
 
+    var userController: WKUserContentController {
+        return webView.configuration.userContentController
+    }
+
+    /// 进度观察者
     private var progressObservation: NSKeyValueObservation?
+    /// 标题观察者
     private var titleObservation: NSKeyValueObservation?
 
+    private var scripts: [String] = []
+
+    /// 要打开的URL
     private let url: String
+    /// 是否改变标题
     private let isChangeTitle: Bool
 
+    /// 自定义标题
     private let customTitle: String
+
+    deinit {
+        progressObservation?.invalidate()
+        progressObservation = nil
+
+        scripts.forEach { (name) in
+            userController.removeScriptMessageHandler(forName: name)
+        }
+    }
 
     public init(title: String = "", url: String) {
         self.url = url
@@ -40,23 +86,32 @@ open class BaseWebViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        if #available(iOS 11, *) {
-            return
-        }
-        progressObservation?.invalidate()
-        progressObservation = nil
-    }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        loadRequest()
+        addJavaScript()
+        loadRequest(value: url)
     }
 
-    open func loadRequest() {
-        let request = URLRequest(url: URL(string: url)!)
+    open func loadRequest(value: String) {
+        let request = URLRequest(url: URL(string: value)!)
         webView.load(request)
+    }
+
+    open func addJavaScript() {
+
+    }
+
+    public final func addScriptHandler(_ item: ScriptHandler) {
+        userController.add(item, name: item.name)
+        scripts.append(item.name)
+    }
+}
+
+extension BaseWebViewController: WKScriptMessageHandler {
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+
     }
 }
 
@@ -129,6 +184,7 @@ extension BaseWebViewController: WKNavigationDelegate {
     @available(iOS 13.0, *)
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, preferences: WKWebpagePreferences, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         print("决定是允许还是取消导航。iOS 13")
+        print(navigationAction.request.url?.absoluteString ?? "url == nil")
         decisionHandler(.allow, preferences)
     }
 
@@ -166,5 +222,46 @@ extension BaseWebViewController: WKNavigationDelegate {
 
     public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         print("该Web视图的内容过程已终止。")
+    }
+}
+
+// MARK: - WKUIDelegate
+extension BaseWebViewController: WKUIDelegate {
+    // 创建一个新的WebView
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        //如果是跳转一个新页面
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
+    }
+
+    // WebView关闭
+    public func webViewDidClose(_ webView: WKWebView) {
+//        print("WebView关闭")
+    }
+
+    // 显示一个JS的alert
+    public func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        print(message)
+        // 确定按钮
+        let alertAction = UIAlertAction(title: "OK", style: .cancel) { (_) in
+            completionHandler()
+        }
+        // alert弹出框
+        let alertController = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        alertController.addAction(alertAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
+    // 弹出一个输入框
+    public func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+        print(prompt, defaultText)
+    }
+
+    // 弹出一个确认框
+    public func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        print(message)
     }
 }
