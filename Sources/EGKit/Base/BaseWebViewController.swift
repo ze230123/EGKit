@@ -59,7 +59,7 @@ open class BaseWebViewController: BaseViewController {
     private var scripts: [String] = []
 
     /// 要打开的URL
-    private let url: String
+    public let url: String
     /// 是否改变标题
     private let isChangeTitle: Bool
 
