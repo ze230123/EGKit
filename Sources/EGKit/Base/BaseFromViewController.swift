@@ -30,11 +30,12 @@ open class BaseFromViewController: FormViewController, ErrorHandlerObserverType 
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9607843137, blue: 0.9568627451, alpha: 1)
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.shadowImage = UIImage()
 
+        tableView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9607843137, blue: 0.9568627451, alpha: 1)
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
     }
